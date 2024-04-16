@@ -1,4 +1,6 @@
 TODO List:
+- Fix the diagonal speed as you get Sqr(2) instead of 1.
+- For monitors with faster refresh rate than 60 Hz, is there anything here to consider in our code base.
 - Don't forget to include Release() on D3D11 functions: Create()+Delete() pair
 - Create a basic camera AABB collision check so that we don't can go through walls and such.
 	-> Also for script trigger OnCollide() -> Let us say you stepped on a mine -> Triggers an explosions.

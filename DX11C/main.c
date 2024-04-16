@@ -17,6 +17,7 @@
 #include "GameObject/SpinningQuad.h"
 #include "GameObject/WoodenBox.h"
 #include "GameObject/Player.h"
+#include "Math/gpu_math.h"
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
 {
@@ -55,7 +56,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 
 	// Create Player GameObject
-	if (!player_create())
+	if (!player_create((float3) { 0.0f, 0.0f, 2.0f }))
 	{
 		exit(1);
 	}
@@ -66,8 +67,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		exit(1);
 	}
 
-    // Reset Camera
-	camera_reset();
+    //// Reset Camera
+	//camera_reset();
 
 	// Initialize Timer
 	timer_init();
@@ -88,9 +89,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		// Update the player
 		player_update(dt);
-
-		// Update camera
-		//camera_update(dt);
 
 
 		// Update the sky box

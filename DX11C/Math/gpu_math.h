@@ -209,3 +209,8 @@ inline float4x4 identityMat()
 		0, 0, 0, 1
 	};
 }
+
+inline float3 get_position_from_matrix(float4x4* mat4x4)
+{
+	return (float3){ mat4x4->m[3][0], mat4x4->m[3][1], mat4x4->m[3][2] };
+}

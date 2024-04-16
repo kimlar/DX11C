@@ -2,14 +2,10 @@
 #include "../Math/gpu_math.h"
 #include "../Input/Keyboard.h"
 #include "../Input/Mouse.h"
-//#include "../GameObject/Player.h"
-
-extern float3 player_position;
-extern float3 player_forward;
 
 // Camera
 float3 cameraPos;
-float3 cameraFwd;
+//float3 cameraFwd;
 float cameraPitch;
 float cameraYaw;
 
@@ -18,99 +14,24 @@ static float4x4 viewMat = { 0 };
 
 // Prototypes
 static void camera_reset();
-//static void camera_update(float dt, bool* global_keyIsDown);
-static void camera_update(float dt);
-static void camera_update_view_matrix();
-static void camera_update_forward_vector();
+static void camera_get_input();
+static void camera_update(float3 object_position);
 
 // Reset camera
 static void camera_reset()
 {
-	cameraPos = (float3){ 0.0f, 1.5f, 2.0f };
-	cameraFwd = (float3){ 0.0f, 0.0f, -1.0f };
+	cameraPos = (float3){ 0.0f, 1.5f, 2.5f };
+	//cameraFwd = (float3){ 0.0f, 0.0f, -1.0f };
 	cameraPitch = degreesToRadians(-20.0f);
 	cameraYaw = 0.0f;
+
+	viewMat = identityMat();
+	
 }
 
 // Update camera
-//static void camera_update(float dt, bool* global_keyIsDown)
-static void camera_update(float dt)
+static void camera_get_input()
 {
-	player_forward = (float3){ -viewMat.m[2][0], -viewMat.m[2][1], -viewMat.m[2][2] };
-	//float3 camFwdXZ;
-	cameraFwd.x = player_forward.x;
-	cameraFwd.y = player_forward.y;
-	cameraFwd.z = player_forward.z;
-
-
-	//float3 cameraRightXZ = cross(cameraFwd, (float3) { 0, 1, 0 });
-
-	cameraPos.x = player_position.x;
-	cameraPos.y = player_position.y;
-	cameraPos.z = player_position.z;
-
-	add_equal(&cameraPos, mul((float3) { 0.0f, 1.0f, 0.0f }, 1.5f));
-	//add_equal(&cameraPos, mul((float3) {0.0f, 0.0f, 1.0f}, 2.0f));
-	add_equal(&cameraPos, mul(cameraFwd, -2.0f));
-
-
-
-	//float3 camFwdXZ = normalise((float3) { player_forward.x, 0, player_forward.z });
-	//float3 cameraRightXZ = cross(camFwdXZ, (float3) { 0, 1, 0 });
-
-
-	//float3 camFwdXZ = normalise((float3) { cameraFwd.x, 0, cameraFwd.z });
-	//float3 cameraRightXZ = cross(camFwdXZ, (float3) { 0, 1, 0 });
-
-
-/*
-	//float3 camFwdXZ;
-	cameraFwd.x = player_forward.x;
-	cameraFwd.y = player_forward.y;
-	cameraFwd.z = player_forward.z;
-
-	float3 cameraRightXZ = cross(cameraFwd, (float3) { 0, 1, 0 });
-
-
-
-
-	cameraPos.x = player_position.x;
-	cameraPos.y = player_position.y;
-	cameraPos.z = player_position.z;
-
-
-	add_equal(&cameraPos, mul((float3) { 0.0f, 1.0f, 0.0f }, 1.5f));
-	//add_equal(&cameraPos, mul((float3) {0.0f, 0.0f, 1.0f}, 2.0f));
-	add_equal(&cameraPos, mul(cameraFwd, -2.0f));
-*/
-
-
-//	const float CAM_MOVE_SPEED = 5.f; // in metres per second
-//	const float CAM_MOVE_AMOUNT = CAM_MOVE_SPEED * dt;
-//	if (global_keyIsDown[GameActionMoveCamFwd])
-//		add_equal(&cameraPos, mul(cameraFwd, CAM_MOVE_AMOUNT));
-//	if (global_keyIsDown[GameActionMoveCamBack])
-//		sub_equal(&cameraPos, mul(cameraFwd, CAM_MOVE_AMOUNT));
-//	if (global_keyIsDown[GameActionMoveCamLeft])
-//		sub_equal(&cameraPos, mul(cameraRightXZ, CAM_MOVE_AMOUNT));
-//	if (global_keyIsDown[GameActionMoveCamRight])
-//		add_equal(&cameraPos, mul(cameraRightXZ, CAM_MOVE_AMOUNT));
-//	if (global_keyIsDown[GameActionRaiseCam])
-//		cameraPos.y += CAM_MOVE_AMOUNT;
-//	if (global_keyIsDown[GameActionLowerCam])
-//		cameraPos.y -= CAM_MOVE_AMOUNT;
-
-//	const float CAM_TURN_SPEED = (const float)M_PI; // in radians per second
-//	const float CAM_TURN_AMOUNT = CAM_TURN_SPEED * dt;
-//	if (global_keyIsDown[GameActionTurnCamLeft])
-//		cameraYaw += CAM_TURN_AMOUNT;
-//	if (global_keyIsDown[GameActionTurnCamRight])
-//		cameraYaw -= CAM_TURN_AMOUNT;
-//	if (global_keyIsDown[GameActionLookUp])
-//		cameraPitch += CAM_TURN_AMOUNT;
-//	if (global_keyIsDown[GameActionLookDown])
-//		cameraPitch -= CAM_TURN_AMOUNT;
-
 	// Mouse look camera
 	if (!mouse_visible)
 	{
@@ -129,38 +50,25 @@ static void camera_update(float dt)
 		cameraYaw += (float)(2 * M_PI);
 
 	// Clamp pitch to stop camera flipping upside down
-	if (cameraPitch > degreesToRadians(85))
-		cameraPitch = degreesToRadians(85);
+	if (cameraPitch > degreesToRadians(30))
+		cameraPitch = degreesToRadians(30);
 	if (cameraPitch < -degreesToRadians(85))
 		cameraPitch = -degreesToRadians(85);
-
-	//-----------------------------------------------------------------------------
-
-	// Calculate view matrix from camera data
-	camera_update_view_matrix();
-
-	// Update the forward vector we use for camera movement:
-	camera_update_forward_vector();
 }
 
-// Calculate view matrix from camera data
-static void camera_update_view_matrix()
+// Update camera view matrix and camera position
+static void camera_update(float3 object_position)
 {
-	// Calculate view matrix from camera data
-	// 
-	// float4x4 viewMat = inverse(rotateXMat(cameraPitch) * rotateYMat(cameraYaw) * translationMat(cameraPos));
-	// NOTE: We can simplify this calculation to avoid inverse()!
-	// Applying the rule inverse(A*B) = inverse(B) * inverse(A) gives:
-	// float4x4 viewMat = inverse(translationMat(cameraPos)) * inverse(rotateYMat(cameraYaw)) * inverse(rotateXMat(cameraPitch));
-	// The inverse of a rotation/translation is a negated rotation/translation:
-	viewMat = mul44x3(translationMat(negate(cameraPos)), rotateYMat(-cameraYaw), rotateXMat(-cameraPitch));
+	const float3 camera_offset = { 0.0f, -1.5f, -2.5f };
 
+	// Update the view matrix
+	viewMat = identityMat();
+	viewMat = mul44(viewMat, translationMat(negate(object_position)));
+	viewMat = mul44(viewMat, translationMat((float3) { 0.0f, camera_offset.y, 0.0f }));
+	viewMat = mul44(viewMat, rotateYMat(-cameraYaw));
+	viewMat = mul44(viewMat, rotateXMat(-cameraPitch));
+	viewMat = mul44(viewMat, translationMat((float3) { 0.0f, 0.0f, camera_offset.z }));
 
-}
-
-// Update the forward vector we use for camera movement:
-static void camera_update_forward_vector()
-{
-	// Update the forward vector we use for camera movement:
-	cameraFwd = (float3){ -viewMat.m[2][0], -viewMat.m[2][1], -viewMat.m[2][2] };
+	// Tell the Camera its new position
+	cameraPos = get_position_from_matrix(&viewMat);
 }
