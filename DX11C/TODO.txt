@@ -1,6 +1,4 @@
 TODO List:
-- Implement a 3rd camera for the player. (Currently working on it -> Iron out the camera rotate glitch)
-- Make the Player object rotate with the camera.
 - Don't forget to include Release() on D3D11 functions: Create()+Delete() pair
 - Create a basic camera AABB collision check so that we don't can go through walls and such.
 	-> Also for script trigger OnCollide() -> Let us say you stepped on a mine -> Triggers an explosions.
@@ -49,3 +47,4 @@ DONE List:
 - Mouse look instead of keyboard to turn camera around. It is effectively a 1st person camera (aka FPS camera)
 - Create a basic skybox
 - Create a basic terrain (although it need much more work to it)
+- Implement a 3rd camera for the player. Make the Player object rotate with the camera. (Fixed the camera rotation glitch)
