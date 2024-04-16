@@ -1,4 +1,4 @@
-# DX11C - DirectX 11 Template using C
+# DX11C - DirectX 11 Game Template using C
 
 ![alt text](https://github.com/kimlar/DX11C/blob/master/DirectX11-Game-Template-With-C.png "DirectX 11 Game Template With C")
 A DirectX 11 Template using C in Visual Studio 2022.
