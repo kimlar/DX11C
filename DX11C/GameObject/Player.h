@@ -274,8 +274,10 @@ static void player_update(float dt)
 		cameraYaw += (float)(2 * M_PI);
 
 	// Clamp pitch to stop camera flipping upside down
-	if (cameraPitch > degreesToRadians(85))
-		cameraPitch = degreesToRadians(85);
+	//if (cameraPitch > degreesToRadians(85))
+	//	cameraPitch = degreesToRadians(85);
+	if (cameraPitch > degreesToRadians(30))
+		cameraPitch = degreesToRadians(30);
 	if (cameraPitch < -degreesToRadians(85))
 		cameraPitch = -degreesToRadians(85);
 

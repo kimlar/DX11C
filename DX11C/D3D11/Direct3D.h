@@ -81,6 +81,9 @@ static void direct3d_did_resize()
 			ID3D11RenderTargetView_Release(d3d11FrameBufferView);
 			ID3D11DepthStencilView_Release(d3d11DepthStencilView);
 
+			// Update window dimensions
+			window_get_dimensions();
+
 			HRESULT hr;
 			// Preserve the existing buffer count and format.
 			// Automatically choose the width and height to match the client rect for HWNDs.
