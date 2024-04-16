@@ -198,3 +198,14 @@ inline float4x4 mul44x3(float4x4 a, float4x4 b, float4x4 c)
 {
     return mul44(mul44(a, b), c);
 }
+
+inline float4x4 identityMat()
+{
+	return (float4x4)
+	{
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1
+	};
+}

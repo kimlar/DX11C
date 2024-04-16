@@ -90,7 +90,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		player_update(dt);
 
 		// Update camera
-		camera_update(dt);
+		//camera_update(dt);
 
 
 		// Update the sky box

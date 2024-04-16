@@ -199,9 +199,11 @@ static bool player_create()
 static void player_update(float dt)
 {
 
-	float3 playerFwdXZ = normalise((float3) { player_forward.x, 0, player_forward.z });
+	//float3 playerFwdXZ = normalise((float3) { player_forward.x, 0, player_forward.z });
+	float3 playerFwdXZ = normalise((float3) { -viewMat.m[2][0], 0, -viewMat.m[2][2] });
 	float3 playerRightXZ = cross(playerFwdXZ, (float3) { 0, 1, 0 });
-	
+	//player_forward = playerFwdXZ;
+	//player_forward = (float3){ -viewMat.m[2][0], -viewMat.m[2][1], -viewMat.m[2][2] };
 	float player_speed = 5.0f;
 	float player_movementSpeed = player_speed * dt;
 	if (global_keyIsDown[GameActionPlayerMoveForward])
@@ -224,14 +226,15 @@ static void player_update(float dt)
 
 	// Spin the player
 	//float4x4 modelMat = rotateYMat(0.2f * (float)(M_PI * currentTimeInSeconds));
-	float4x4 player_modelMat = translationMat(player_position);
+	//float4x4 player_modelMat = translationMat(player_position);
 
 	
 
 	// Update the forward vector we use for player movement:
 	//player_forward = (float3){ -viewMat.m[2][0], -viewMat.m[2][1], -viewMat.m[2][2] };
-
-
+	//player_forward = normalise((float3) { -viewMat.m[2][0], -viewMat.m[2][1], -viewMat.m[2][2] });
+	
+/*
 	//float3 camFwdXZ;
 	cameraFwd.x = player_forward.x;
 	cameraFwd.y = player_forward.y;
@@ -246,19 +249,109 @@ static void player_update(float dt)
 	add_equal(&cameraPos, mul((float3) { 0.0f, 1.0f, 0.0f }, 1.5f));
 	//add_equal(&cameraPos, mul((float3) {0.0f, 0.0f, 1.0f}, 2.0f));
 	add_equal(&cameraPos, mul(cameraFwd, -2.0f));
+*/
 
-	/*
-	*/
+
+
+
+
+
+	// Mouse look camera
+	if (!mouse_visible)
+	{
+		float camera_look_sensitivity = 0.002f;
+		POINT mouse;
+		GetCursorPos(&mouse);
+		cameraYaw += (float)(mouse_center_x - mouse.x) * camera_look_sensitivity;
+		cameraPitch += (float)(mouse_center_y - mouse.y) * camera_look_sensitivity;
+		SetCursorPos(mouse_center_x, mouse_center_y);
+	}
+
+	// Wrap yaw to avoid floating-point errors if we turn too far
+	while (cameraYaw >= (float)(2 * M_PI))
+		cameraYaw -= (float)(2 * M_PI);
+	while (cameraYaw <= (float)(-2 * M_PI))
+		cameraYaw += (float)(2 * M_PI);
+
+	// Clamp pitch to stop camera flipping upside down
+	if (cameraPitch > degreesToRadians(85))
+		cameraPitch = degreesToRadians(85);
+	if (cameraPitch < -degreesToRadians(85))
+		cameraPitch = -degreesToRadians(85);
+
+	//-----------------------------------------------------------------------------
+
+
+		// Spin the player
+	//float4x4 player_modelMat = rotateYMat(0.2f * (float)(M_PI * currentTimeInSeconds));
+	//float4x4 player_modelMat = translationMat(player_position);
+	//float4x4 player_modelMat = rotateYMat(cameraYaw);
+	float4x4 player_modelMat = rotateYMat(cameraYaw);
+	//player_modelMat = translationMat(player_position);
+	player_modelMat = mul44(player_modelMat, translationMat(player_position));
+	
+	//-----------------------------------------------------------------------------
+
+
+		//float3 camFwdXZ;
+	////cameraFwd.x = player_forward.x;
+	////cameraFwd.y = player_forward.y;
+	////cameraFwd.z = player_forward.z;
+
+	//float3 cameraRightXZ = cross(cameraFwd, (float3) { 0, 1, 0 });
+
+	//cameraPos.x = player_position.x;
+	//cameraPos.y = player_position.y;
+	//cameraPos.z = player_position.z;
+
+	//cameraFwd = playerFwdXZ;
+
+	//add_equal(&cameraPos, mul((float3) { 0.0f, 1.0f, 0.0f }, 1.5f));
+	//add_equal(&cameraPos, mul((float3) {0.0f, 0.0f, 1.0f}, 2.0f));
+	//add_equal(&cameraPos, mul(cameraFwd, -2.0f));
+	//add_equal(&cameraPos, mul(playerFwdXZ, -2.0f));
+	//add_equal(&cameraPos, mul((float3) { 0.0f, 1.0f, 0.0f }, 1.5f));
+	
+	
 	// Calculate view matrix from camera data
-	camera_update_view_matrix();
+	//camera_update_view_matrix();
+	//viewMat = mul44x3(translationMat(negate(cameraPos)), rotateYMat(-cameraYaw), rotateXMat(-cameraPitch));
+	//viewMat = mul44x3(translationMat(negate(cameraPos)), rotateYMat(-cameraYaw), rotateXMat(-cameraPitch));
+	//viewMat = mul44(viewMat, rotateYMat(cameraYaw));
+	//viewMat = mul44(player_modelMat, translationMat(cameraPos));
+
+//	viewMat = mul44(translationMat(negate(player_position)), rotateYMat(-cameraYaw));
+	//viewMat = mul44(viewMat, rotateYMat(-cameraYaw));
+//	viewMat = mul44(viewMat, rotateXMat(-cameraPitch));
+//	viewMat = mul44(viewMat, translationMat((float3) { -viewMat.m[2][0], -1.5f, -viewMat.m[2][2] }));
+	//translationMat((float3) { -viewMat.m[2][0], -1.5f, -viewMat.m[2][2]})
+	 
 	// Update the forward vector we use for camera movement:
-	camera_update_forward_vector();
+	//camera_update_forward_vector();
+	// Update the forward vector we use for camera movement:
+	//cameraFwd = (float3){ -viewMat.m[2][0], 0, -viewMat.m[2][2] };
 
+	viewMat = identityMat();
+	viewMat = mul44(viewMat, translationMat((float3) { -player_position.x, 0.0f, -player_position.z }));
+	viewMat = mul44(viewMat, translationMat((float3) { 0.0f, -1.5f, 0.0f }));
+	viewMat = mul44(viewMat, rotateYMat(-cameraYaw));
+	viewMat = mul44(viewMat, rotateXMat(-cameraPitch));
+	viewMat = mul44(viewMat, translationMat((float3) { 0.0f, 0.0f, -2.5f }));
 
-
+	//viewMat = mul44(rotateYMat(-cameraYaw), rotateXMat(-cameraPitch));
+	//viewMat = mul44(viewMat, rotateYMat(-cameraYaw));
+	//viewMat = mul44(viewMat, rotateXMat(-cameraPitch));
+	//viewMat = mul44(viewMat, translationMat(negate(player_position)));
+	//viewMat = mul44(viewMat, translationMat((float3) { 0.0f, -1.5f, 0.0f }));
+	//viewMat = mul44(viewMat, translationMat((float3) { 0.0f, 0.0f, 2.0f }));
+	//add_equal(&viewMat, mul(playerRightXZ, -2.0f));
 
 	// Calculate model-view-projection matrix to send to shader
 	float4x4 modelViewProj = mul44x3(player_modelMat, viewMat, perspectiveMat);
+
+
+	//viewMat = mul44(viewMat, rotateYMat(-cameraYaw));
+
 
 	// Update constant buffer (Upload to GPU constant buffer)
 	D3D11_MAPPED_SUBRESOURCE mappedSubresource;
