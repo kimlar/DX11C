@@ -206,25 +206,31 @@ static void player_update(float dt)
 
 	float player_speed = 5.0f;
 	float player_movementSpeed = player_speed * dt;
+
+	// Get the players current movement speed
+	float3 tempMovement = { 0.0f, 0.0f, 0.0f };
 	if (global_keyIsDown[GameActionPlayerMoveForward])
 	{
-		add_equal(&player_position, mul(playerFwdXZ, player_movementSpeed));
+		add_equal(&tempMovement, mul(playerFwdXZ, player_movementSpeed));
 	}
 	if (global_keyIsDown[GameActionPlayerMoveBackward])
 	{
-		sub_equal(&player_position, mul(playerFwdXZ, player_movementSpeed));
+		sub_equal(&tempMovement, mul(playerFwdXZ, player_movementSpeed));
 	}
 	if (global_keyIsDown[GameActionPlayerStrafeLeft])
 	{
-		sub_equal(&player_position, mul(playerRightXZ, player_movementSpeed));
+		sub_equal(&tempMovement, mul(playerRightXZ, player_movementSpeed));
 	}
 	if (global_keyIsDown[GameActionPlayerStrafeRight])
 	{
-		add_equal(&player_position, mul(playerRightXZ, player_movementSpeed));
+		add_equal(&tempMovement, mul(playerRightXZ, player_movementSpeed));
 	}
 
-
-
+	// Make sure player doesn't move too fast (avoid diagonal speed hack). Now it's 1.0x movement speed in any direction.
+	if (tempMovement.x != 0.0f || tempMovement.y != 0.0f || tempMovement.z != 0.0f)
+	{
+		add_equal(&player_position, mul(normalise(tempMovement), player_movementSpeed));
+	}
 
 	//-----------------------------------------------------------------------------
 

@@ -1,5 +1,4 @@
 TODO List:
-- Fix the diagonal speed as you get Sqr(2) instead of 1.
 - For monitors with faster refresh rate than 60 Hz, is there anything here to consider in our code base.
 - Don't forget to include Release() on D3D11 functions: Create()+Delete() pair
 - Create a basic camera AABB collision check so that we don't can go through walls and such.
@@ -50,3 +49,4 @@ DONE List:
 - Create a basic skybox
 - Create a basic terrain (although it need much more work to it)
 - Implement a 3rd camera for the player. Make the Player object rotate with the camera. (Fixed the camera rotation glitch)
+- Fix the diagonal speed as you get Sqr(2) instead of 1.
