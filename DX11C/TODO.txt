@@ -1,0 +1,51 @@
+TODO List:
+- Implement a 3rd camera for the player. (Currently working on it -> Iron out the camera rotate glitch)
+- Make the Player object rotate with the camera.
+- Don't forget to include Release() on D3D11 functions: Create()+Delete() pair
+- Create a basic camera AABB collision check so that we don't can go through walls and such.
+	-> Also for script trigger OnCollide() -> Let us say you stepped on a mine -> Triggers an explosions.
+- Load vertex data from file.
+- Create game content file format (aka Box project).
+	-> GameObject: {Texture, Shaders(VS+PS), VertexData}
+	-> World: {Terrain, Buildings, Trees, Foilage, Road, Items, Players, Light, ScriptObject, Starting location etc}
+- Create CLI tool for generating game content file (gameObjects, world).
+- Should we use Blender for World editor or make a World editor ourself.
+	-> Light sources
+	-> Starting location
+	-> Script area triggers
+	-> Pawns (aka NPCs, enemies etc.)
+	-> End level trigger location -> Load next level
+	-> Place items in the world
+- Create Application Icon (Desktop Icon and AppIcon) and load it.
+- Create Application Mouse cursor and load it.
+- Create an ECS for game objects
+	-> Entity ID
+	-> Component ID
+	-> System ID
+- Create a scene manager
+- Create a player HUD
+- Create menus (incl. main menu)
+- Create a loading bar
+- Create a logging system
+- Create an error system for user (in-game dialog also)
+- Create a settings system
+- Create a file loader (for the whole project)
+- Create a memory manager -> resource manager
+- Handle picking for 3D game objects -> mouse cursor change indicating actionable object
+- Create an inventory
+- Create a app FSM (booting, gameStarting, gameRunning, gameEnding, gamePause, gameMainMenu)
+- Find out how to animate game object with Blender -> game format -> game animating gameObject
+- Find out how to play music and sounds
+- Create an option menu
+- Create a font loader and font renderer
+- Create an UI for the game
+- Create keyboard bindings
+- Create a story system (Start->NPCs->DoSomeStuff->Unlock/AcquireSpecialReward->NextLevel->UntilGameOverOrGameWin)
+- Create data driven system for in-game gameObject (think aka item database etc.)
+
+---------------------------------------------------------------------------------------------------------------
+
+DONE List:
+- Mouse look instead of keyboard to turn camera around. It is effectively a 1st person camera (aka FPS camera)
+- Create a basic skybox
+- Create a basic terrain (although it need much more work to it)

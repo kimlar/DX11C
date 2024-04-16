@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.c" />
+    <ClCompile Include="D3D11\Device.c" />
+    <ClCompile Include="D3D11\DebugLayer.c" />
+    <ClCompile Include="D3D11\SwapChain.c" />
+    <ClCompile Include="D3D11\FrameBuffer.c" />
+    <ClCompile Include="D3D11\VertexShader.c" />
+    <ClCompile Include="D3D11\PixelShader.c" />
+    <ClCompile Include="D3D11\InputLayout.c" />
+    <ClCompile Include="D3D11\VertexBuffer.c" />
+    <ClCompile Include="D3D11\SamplerState.c" />
+    <ClCompile Include="Resource\Image\LoadPNG.c" />
+    <ClCompile Include="D3D11\ShaderResourceView.c" />
+    <ClCompile Include="D3D11\ConstantBuffer.c" />
+    <ClCompile Include="D3D11\RasterizerState.c" />
+    <ClCompile Include="Timer\Timer.c" />
+    <ClCompile Include="Window\Window.c" />
+    <ClCompile Include="D3D11\Direct3D.c" />
+    <ClCompile Include="D3D11\DepthStencilView.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource\Image\stb_image.h" />
+    <ClInclude Include="Math\gpu_math.h" />
+    <ClInclude Include="D3D11\Device.h" />
+    <ClInclude Include="D3D11\DebugLayer.h" />
+    <ClInclude Include="D3D11\SwapChain.h" />
+    <ClInclude Include="D3D11\FrameBuffer.h" />
+    <ClInclude Include="D3D11\Core.h" />
+    <ClInclude Include="D3D11\VertexShader.h" />
+    <ClInclude Include="D3D11\PixelShader.h" />
+    <ClInclude Include="D3D11\InputLayout.h" />
+    <ClInclude Include="D3D11\VertexBuffer.h" />
+    <ClInclude Include="D3D11\SamplerState.h" />
+    <ClInclude Include="Resource\Image\LoadPNG.h" />
+    <ClInclude Include="D3D11\ShaderResourceView.h" />
+    <ClInclude Include="D3D11\ConstantBuffer.h" />
+    <ClInclude Include="D3D11\RasterizerState.h" />
+    <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Timer\Timer.h" />
+    <ClInclude Include="Input\Keyboard.h" />
+    <ClInclude Include="GameObject\SpinningQuad.h" />
+    <ClInclude Include="Window\Window.h" />
+    <ClInclude Include="D3D11\Direct3D.h" />
+    <ClInclude Include="GameObject\WoodenBox.h" />
+    <ClInclude Include="D3D11\DepthStencilView.h" />
+    <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="Scene\SkyBox.h" />
+    <ClInclude Include="Scene\Terrain.h" />
+    <ClInclude Include="GameObject\Player.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODO.txt" />
+  </ItemGroup>
+</Project>
