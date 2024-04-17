@@ -18,6 +18,11 @@ typedef struct float4
     float x, y, z, w;
 } float4;
 
+typedef struct float6
+{
+	float minX, maxX, minY, maxY, minZ, maxZ;
+} float6;
+
 typedef struct float4x4
 {
     float m[4][4];

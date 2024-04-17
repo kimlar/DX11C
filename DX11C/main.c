@@ -19,6 +19,9 @@
 #include "GameObject/Player.h"
 #include "Math/gpu_math.h"
 
+// Debug
+#include "Collision/AABB_debug_box.h"
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
 {
     OutputDebugStringA("Hello, World!\n"); // <-- Use dgbview64.exe to see this
@@ -61,14 +64,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		exit(1);
 	}
 
+	// Create AABB debug box
+	if (!AABB_debug_box_create((float3) { 0.0f, 0.0f, 2.0f }))
+	{
+		exit(1);
+	}
+
+
 	// Create Terrain
 	if (!terrain_create())
 	{
 		exit(1);
 	}
-
-    //// Reset Camera
-	//camera_reset();
 
 	// Initialize Timer
 	timer_init();
@@ -89,6 +96,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		// Update the player
 		player_update(dt);
+
+		// Update the AABB debug box
+		AABB_debug_box_update(player_position);
 
 
 		// Update the sky box
@@ -141,6 +151,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 			// Player Render
 			player_render();
+
+
+			// AABB debug box Pipeline
+			AABB_debug_box_pipeline();
+
+			// AABB debug box Render
+			AABB_debug_box_render();
+
 		}
 		direct3d_post_render(); // Post render
 		// ------------------------------------------------------------------------------------------------

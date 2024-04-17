@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Collision\AABB_debug_box.h" />
     <ClInclude Include="D3D11\ConstantBuffer.h" />
     <ClInclude Include="D3D11\Core.h" />
     <ClInclude Include="D3D11\DebugLayer.h" />

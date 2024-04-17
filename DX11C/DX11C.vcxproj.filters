@@ -49,6 +49,7 @@
     <ClInclude Include="Scene\SkyBox.h" />
     <ClInclude Include="Scene\Terrain.h" />
     <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="Collision\AABB_debug_box.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODO.txt" />
