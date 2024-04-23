@@ -1,3 +1,6 @@
+https://stackoverflow.com/questions/21935712/directx-11-how-to-outline-a-bounding-box
+
+
 TODO List:
 - For monitors with faster refresh rate than 60 Hz, is there anything here to consider in our code base.
 - Don't forget to include Release() on D3D11 functions: Create()+Delete() pair
