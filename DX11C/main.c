@@ -22,6 +22,10 @@
 // Debug
 #include "Collision/AABB_debug_box.h"
 
+// Testing new stuffs here
+#include "Scene/DebugBox.h"
+
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
 {
     OutputDebugStringA("Hello, World!\n"); // <-- Use dgbview64.exe to see this
@@ -77,6 +81,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		exit(1);
 	}
 
+	// Create a debug box
+	DebugBox_create(-0.5f, -0.5f, 0.5f, 0.5f);
+	//DebugBox_create_vertex_buffer_and_index_buffer(-0.5f, -0.5f, 0.5f, 0.5f);
+	//DebugBox_load_buffers();
+
 	// Initialize Timer
 	timer_init();
 	
@@ -112,6 +121,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		// Update the wooden box
 		wooden_box_update();
+
+		// Update the debug box
+		DebugBox_update(-1.0f, -1.0f, 1.0f, 1.0f);
 
 		// ------------------------------------------------------------------------------------------------
 		direct3d_pre_render(); // Pre render
@@ -158,6 +170,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 			// AABB debug box Render
 			AABB_debug_box_render();
+
+
+
+			// DebugBox render
+			DebugBox_render();
 
 		}
 		direct3d_post_render(); // Post render

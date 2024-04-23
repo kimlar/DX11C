@@ -143,6 +143,7 @@
     <ClInclude Include="Math\gpu_math.h" />
     <ClInclude Include="Resource\Image\LoadPNG.h" />
     <ClInclude Include="Resource\Image\stb_image.h" />
+    <ClInclude Include="Scene\DebugBox.h" />
     <ClInclude Include="Scene\SkyBox.h" />
     <ClInclude Include="Scene\Terrain.h" />
     <ClInclude Include="Timer\Timer.h" />

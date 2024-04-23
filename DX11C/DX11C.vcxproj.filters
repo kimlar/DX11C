@@ -50,6 +50,7 @@
     <ClInclude Include="Scene\Terrain.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="Collision\AABB_debug_box.h" />
+    <ClInclude Include="Scene\DebugBox.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODO.txt" />

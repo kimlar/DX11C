@@ -4,17 +4,17 @@
 #include "../Timer/Timer.h"
 #include "../Camera/Camera.h"
 
-ID3D11VertexShader* vertexShader = NULL;
-ID3D11PixelShader* pixelShader = NULL;
-ID3D11InputLayout* inputLayout = NULL;
-ID3D11Buffer* vertexBuffer = NULL;
-unsigned int stride = 0;
-unsigned int numVerts = 0;
-unsigned int offset = 0;
-ID3D11SamplerState* samplerState = NULL;
-ID3D11ShaderResourceView* textureView = NULL;
-ID3D11Buffer* constantBuffer = NULL;
-ID3D11RasterizerState* rasterizerState = NULL;
+ID3D11VertexShader* spinning_quad_vertexShader = NULL;
+ID3D11PixelShader* spinning_quad_pixelShader = NULL;
+ID3D11InputLayout* spinning_quad_inputLayout = NULL;
+ID3D11Buffer* spinning_quad_vertexBuffer = NULL;
+unsigned int spinning_quad_stride = 0;
+unsigned int spinning_quad_numVerts = 0;
+unsigned int spinning_quad_offset = 0;
+ID3D11SamplerState* spinning_quad_samplerState = NULL;
+ID3D11ShaderResourceView* spinning_quad_textureView = NULL;
+ID3D11Buffer* spinning_quad_constantBuffer = NULL;
+ID3D11RasterizerState* spinning_quad_rasterizerState = NULL;
 float3 spinning_quad_position = { 0.0f, 0.0f, 0.0f };
 
 
@@ -24,11 +24,11 @@ static bool spinning_quad_create()
 	// Create Vertex Shader
 	//ID3D11VertexShader* vertexShader = NULL;
 	ID3DBlob* vsBlob = NULL;
-	if (!d3d11_vertex_shader_create(d3d11Device, L"Data/Shaders/VertexShader.hlsl", &vertexShader, &vsBlob))
+	if (!d3d11_vertex_shader_create(d3d11Device, L"Data/Shaders/VertexShader.hlsl", &spinning_quad_vertexShader, &vsBlob))
 	{
 		return false; // Failure
 	}
-	assert(vertexShader != NULL);
+	assert(spinning_quad_vertexShader != NULL);
 	assert(vsBlob != NULL);
 
 
@@ -36,11 +36,11 @@ static bool spinning_quad_create()
 	// Create Pixel Shader
 	//ID3D11PixelShader* pixelShader = NULL;
 	ID3DBlob* psBlob = NULL;
-	if (!d3d11_pixel_shader_create(d3d11Device, L"Data/Shaders/PixelShader.hlsl", &pixelShader, &psBlob))
+	if (!d3d11_pixel_shader_create(d3d11Device, L"Data/Shaders/PixelShader.hlsl", &spinning_quad_pixelShader, &psBlob))
 	{
 		return false; // Failure
 	}
-	assert(pixelShader != NULL);
+	assert(spinning_quad_pixelShader != NULL);
 	assert(psBlob != NULL);
 
 
@@ -54,11 +54,11 @@ static bool spinning_quad_create()
 		{ "POS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "TEX", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
-	if (!d3d11_input_layout_create(d3d11Device, &inputLayout, inputElementDesc, ARRAYSIZE(inputElementDesc), vsBlob))
+	if (!d3d11_input_layout_create(d3d11Device, &spinning_quad_inputLayout, inputElementDesc, ARRAYSIZE(inputElementDesc), vsBlob))
 	{
 		return false; // Failure
 	}
-	assert(inputLayout != NULL);
+	assert(spinning_quad_inputLayout != NULL);
 
 
 
@@ -86,9 +86,9 @@ static bool spinning_quad_create()
 			0.5f,  1.0f, 0.0f,      1.0f, 0.0f,
 			0.5f, 0.0f, 0.0f,      1.0f, 1.0f
 		};
-		stride = 5 * sizeof(float);
-		numVerts = sizeof(vertexData) / stride;
-		offset = 0;
+		spinning_quad_stride = 5 * sizeof(float);
+		spinning_quad_numVerts = sizeof(vertexData) / spinning_quad_stride;
+		spinning_quad_offset = 0;
 		unsigned int size_in_bytes = sizeof(vertexData);
 		float* myVertexData = malloc(size_in_bytes);
 		if (myVertexData == NULL)
@@ -96,14 +96,14 @@ static bool spinning_quad_create()
 			return false; // Failure
 		}
 		memcpy(myVertexData, vertexData, size_in_bytes);
-		if (!d3d11_vertex_buffer_create(d3d11Device, myVertexData, size_in_bytes, D3D11_USAGE_DEFAULT, &vertexBuffer))
+		if (!d3d11_vertex_buffer_create(d3d11Device, myVertexData, size_in_bytes, D3D11_USAGE_DEFAULT, &spinning_quad_vertexBuffer))
 		{
 			return false; // Failure
 		}
 		free(myVertexData);
 		myVertexData = NULL;
 	}
-	assert(vertexBuffer != NULL);
+	assert(spinning_quad_vertexBuffer != NULL);
 
 
 
@@ -113,22 +113,22 @@ static bool spinning_quad_create()
 
 	// Create Sampler State
 	//ID3D11SamplerState* samplerState = NULL;
-	if (!d3d11_sampler_state_create(d3d11Device, &samplerState))
+	if (!d3d11_sampler_state_create(d3d11Device, &spinning_quad_samplerState))
 	{
 		return false; // Failure
 	}
-	assert(samplerState != NULL);
+	assert(spinning_quad_samplerState != NULL);
 
 
 
 
 	// Load ShaderResourceView (texture on GPU)
 	//ID3D11ShaderResourceView* textureView = NULL;
-	if (!d3d11_shader_resource_view_create(d3d11Device, "Data/Textures/General/tile15.png", &textureView))
+	if (!d3d11_shader_resource_view_create(d3d11Device, "Data/Textures/General/tile15.png", &spinning_quad_textureView))
 	{
 		return false; // Failure
 	}
-	assert(textureView != NULL);
+	assert(spinning_quad_textureView != NULL);
 
 
 
@@ -137,11 +137,11 @@ static bool spinning_quad_create()
 
 	// Create Constant Buffer
 	//ID3D11Buffer* constantBuffer = NULL;
-	if (!d3d11_constant_buffer_create(d3d11Device, &constantBuffer))
+	if (!d3d11_constant_buffer_create(d3d11Device, &spinning_quad_constantBuffer))
 	{
 		return false; // Failure
 	}
-	assert(constantBuffer != NULL);
+	assert(spinning_quad_constantBuffer != NULL);
 
 
 
@@ -150,11 +150,11 @@ static bool spinning_quad_create()
 	// Create Rasterizer State
 	//ID3D11RasterizerState* rasterizerState = NULL;
 	//if (!d3d11_rasterizer_state_create(d3d11Device, &rasterizerState))
-	if (!d3d11_rasterizer_state_create(d3d11Device, &rasterizerState, false))
+	if (!d3d11_rasterizer_state_create(d3d11Device, &spinning_quad_rasterizerState, false))
 	{
 		return false; // Failure
 	}
-	assert(rasterizerState != NULL);
+	assert(spinning_quad_rasterizerState != NULL);
 
 
 	return true; // Success
@@ -173,36 +173,36 @@ static void spinning_quad_update()
 
 	// Update constant buffer (Upload to GPU constant buffer)
 	D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-	ID3D11DeviceContext1_Map(d3d11DeviceContext, (ID3D11Resource*)constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
+	ID3D11DeviceContext1_Map(d3d11DeviceContext, (ID3D11Resource*)spinning_quad_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
 	Constants* constants = (Constants*)(mappedSubresource.pData);
 	constants->modelViewProj = modelViewProj;
-	ID3D11DeviceContext1_Unmap(d3d11DeviceContext, (ID3D11Resource*)constantBuffer, 0);
+	ID3D11DeviceContext1_Unmap(d3d11DeviceContext, (ID3D11Resource*)spinning_quad_constantBuffer, 0);
 }
 
 static void spinning_quad_pipeline()
 {
-	ID3D11DeviceContext1_RSSetState(d3d11DeviceContext, rasterizerState);
+	ID3D11DeviceContext1_RSSetState(d3d11DeviceContext, spinning_quad_rasterizerState);
 
 	//ID3D11DeviceContext1_OMSetRenderTargets(d3d11DeviceContext, 1, &d3d11FrameBufferView, NULL);
 	ID3D11DeviceContext1_OMSetRenderTargets(d3d11DeviceContext, 1, &d3d11FrameBufferView, d3d11DepthStencilView);
 
 	ID3D11DeviceContext1_IASetPrimitiveTopology(d3d11DeviceContext, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	ID3D11DeviceContext1_IASetInputLayout(d3d11DeviceContext, inputLayout);
+	ID3D11DeviceContext1_IASetInputLayout(d3d11DeviceContext, spinning_quad_inputLayout);
 
-	ID3D11DeviceContext1_VSSetShader(d3d11DeviceContext, vertexShader, NULL, 0);
-	ID3D11DeviceContext1_PSSetShader(d3d11DeviceContext, pixelShader, NULL, 0);
+	ID3D11DeviceContext1_VSSetShader(d3d11DeviceContext, spinning_quad_vertexShader, NULL, 0);
+	ID3D11DeviceContext1_PSSetShader(d3d11DeviceContext, spinning_quad_pixelShader, NULL, 0);
 
-	ID3D11DeviceContext1_PSSetShaderResources(d3d11DeviceContext, 0, 1, &textureView);
-	ID3D11DeviceContext1_PSSetSamplers(d3d11DeviceContext, 0, 1, &samplerState);
+	ID3D11DeviceContext1_PSSetShaderResources(d3d11DeviceContext, 0, 1, &spinning_quad_textureView);
+	ID3D11DeviceContext1_PSSetSamplers(d3d11DeviceContext, 0, 1, &spinning_quad_samplerState);
 
-	ID3D11DeviceContext1_VSSetConstantBuffers(d3d11DeviceContext, 0, 1, &constantBuffer);
+	ID3D11DeviceContext1_VSSetConstantBuffers(d3d11DeviceContext, 0, 1, &spinning_quad_constantBuffer);
 
-	ID3D11DeviceContext1_IASetVertexBuffers(d3d11DeviceContext, 0, 1, &vertexBuffer, &stride, &offset);
+	ID3D11DeviceContext1_IASetVertexBuffers(d3d11DeviceContext, 0, 1, &spinning_quad_vertexBuffer, &spinning_quad_stride, &spinning_quad_offset);
 }
 
 //static void spinning_quad_render(ID3D11DeviceContext1* d3d11DeviceContext, unsigned int numVerts, unsigned int startVertex)
 static void spinning_quad_render()
 {
 	unsigned int startVertex = 0;
-	ID3D11DeviceContext1_Draw(d3d11DeviceContext, numVerts, startVertex);
+	ID3D11DeviceContext1_Draw(d3d11DeviceContext, spinning_quad_numVerts, startVertex);
 }
