@@ -438,10 +438,39 @@ void DebugBox_render()
 
 	//ID3D11DeviceContext1_Draw(d3d11DeviceContext, player_numVerts, startVertex);
 	//ID3D11DeviceContext1_DrawIndexed(d3d11DeviceContext, 5, 0, 0);
+//	ID3D11DeviceContext1_IASetVertexBuffers(d3d11DeviceContext, 0, 1, &DebugBox_vertexBuffer, &stride, &offset);
+//	ID3D11DeviceContext1_IASetIndexBuffer(d3d11DeviceContext, DebugBox_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+//	ID3D11DeviceContext1_IASetPrimitiveTopology(d3d11DeviceContext, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+//
+//
+//	ID3D11DeviceContext1_DrawIndexed(d3d11DeviceContext, 5, 0, 0);
+
+
+
+	ID3D11DeviceContext1_RSSetState(d3d11DeviceContext, DebugBox_rasterizerState);
+	ID3D11DeviceContext1_OMSetRenderTargets(d3d11DeviceContext, 1, &d3d11FrameBufferView, d3d11DepthStencilView);
+
+
 	ID3D11DeviceContext1_IASetVertexBuffers(d3d11DeviceContext, 0, 1, &DebugBox_vertexBuffer, &stride, &offset);
 	ID3D11DeviceContext1_IASetIndexBuffer(d3d11DeviceContext, DebugBox_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	ID3D11DeviceContext1_IASetPrimitiveTopology(d3d11DeviceContext, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	ID3D11DeviceContext1_IASetInputLayout(d3d11DeviceContext, DebugBox_inputLayout);
 
 
+	ID3D11DeviceContext1_VSSetShader(d3d11DeviceContext, DebugBox_vertexShader, NULL, 0);
+	ID3D11DeviceContext1_PSSetShader(d3d11DeviceContext, DebugBox_pixelShader, NULL, 0);
+
+
+	ID3D11DeviceContext1_PSSetShaderResources(d3d11DeviceContext, 0, 1, &DebugBox_textureView);
+	ID3D11DeviceContext1_PSSetSamplers(d3d11DeviceContext, 0, 1, &DebugBox_samplerState);
+
+
+	//ID3D11DeviceContext1_VSSetConstantBuffers(d3d11DeviceContext, 0, 1, &DebugBox_constantBuffer);
+
+	
+
+	
 	ID3D11DeviceContext1_DrawIndexed(d3d11DeviceContext, 5, 0, 0);
+
+
 }
