@@ -140,10 +140,12 @@
     <ClInclude Include="GameObject\WoodenBox.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="Math\dx_math.h" />
     <ClInclude Include="Math\gpu_math.h" />
     <ClInclude Include="Resource\Image\LoadPNG.h" />
     <ClInclude Include="Resource\Image\stb_image.h" />
-    <ClInclude Include="Scene\DebugBox.h" />
+    <ClInclude Include="Shapes\DrawBox.h" />
+    <ClInclude Include="Shapes\DrawRectangle.h" />
     <ClInclude Include="Scene\SkyBox.h" />
     <ClInclude Include="Scene\Terrain.h" />
     <ClInclude Include="Timer\Timer.h" />

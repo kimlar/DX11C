@@ -23,7 +23,8 @@
 #include "Collision/AABB_debug_box.h"
 
 // Testing new stuffs here
-#include "Scene/DebugBox.h"
+#include "Shapes/DrawRectangle.h"
+#include "Shapes/DrawBox.h"
 
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
@@ -81,10 +82,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		exit(1);
 	}
 
-	// Create a debug box
-	DebugBox_create(-0.5f, -0.5f, 0.5f, 0.5f);
-	//DebugBox_create_vertex_buffer_and_index_buffer(-0.5f, -0.5f, 0.5f, 0.5f);
-	//DebugBox_load_buffers();
+	// Create a DrawBox
+	//DrawBox_create(-0.5f, -0.5f, 0.5f, 0.5f);
+	float3 box_posA = (float3){ -1.0f, -1.0f, -1.0f };
+	float3 box_posB = (float3){ -1.0f, 1.0f, 1.0f };
+	DrawBox_create(box_posA, box_posB);
+
+	// Create a DrawRectangle
+	//DrawRectangle_create(-0.5f, -0.5f, 0.5f, 0.5f);
+	float3 posA = (float3){ -1.0f, -1.0f, -1.0f };
+	float3 posB = (float3){ -1.0f, 1.0f, -1.0f };
+	float3 posC = (float3){ 1.0f, 1.0f, -1.0f };
+	float3 posD = (float3){ 1.0f, -1.0f, -1.0f };
+	DrawRectangle_create(posA, posB, posC, posD);
+
+
 
 	// Initialize Timer
 	timer_init();
@@ -122,8 +134,24 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// Update the wooden box
 		wooden_box_update();
 
-		// Update the debug box
-		DebugBox_update(-1.0f, -1.0f, 1.0f, 1.0f);
+		// Update the DrawBox
+		//DrawBox_update(-1.0f, -1.0f, 1.0f, 1.0f);
+		float3 box_posA = (float3){ 1.0f, 1.0f, 1.0f };
+		float3 box_posB = (float3){ -1.0f, -1.0f, -1.0f };
+		DrawBox_update(box_posA, box_posB);
+
+
+		// Update the DrawRectangle
+		//DrawRectangle_update(-1.0f, -1.0f, 1.0f, 1.0f);
+		//DrawRectangle_update((float3){-1.0f, -1.0f, -1.0f}, (float3){1.0f, 1.0f, 1.0f});
+		//DrawRectangle_update((float3) { -1.0f, -1.0f, 1.0f }, (float3) { 1.0f, 1.0f, 1.0f });
+		//DrawRectangle_update((float3) { -1.0f, -1.0f, -1.0f }, (float3) { -1.0f, 1.0f, 1.0f });
+		//DrawRectangle_update((float3) { -1.0f, 1.0f, -1.0f }, (float3) { 1.0f, 1.0f, 1.0f });
+		float3 posA = (float3){ -1.0f, -1.0f, -1.0f };
+		float3 posB = (float3){ -1.0f, 1.0f, -1.0f };
+		float3 posC = (float3){ 1.0f, 1.0f, -1.0f };
+		float3 posD = (float3){ 1.0f, -1.0f, -1.0f };
+		DrawRectangle_update(posA, posB, posC, posD);
 
 		// ------------------------------------------------------------------------------------------------
 		direct3d_pre_render(); // Pre render
@@ -173,9 +201,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
 
-			// DebugBox render
-			DebugBox_render();
+			// DrawBox render
+			DrawBox_render();
 
+			// DrawRectangle render
+			//DrawRectangle_render();
 		}
 		direct3d_post_render(); // Post render
 		// ------------------------------------------------------------------------------------------------
