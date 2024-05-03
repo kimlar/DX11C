@@ -135,6 +135,7 @@
     <ClInclude Include="D3D11\SwapChain.h" />
     <ClInclude Include="D3D11\VertexBuffer.h" />
     <ClInclude Include="D3D11\VertexShader.h" />
+    <ClInclude Include="FileSystem\file_system_read_binary.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\SpinningQuad.h" />
     <ClInclude Include="GameObject\WoodenBox.h" />

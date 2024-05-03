@@ -124,7 +124,8 @@ static bool spinning_quad_create()
 
 	// Load ShaderResourceView (texture on GPU)
 	//ID3D11ShaderResourceView* textureView = NULL;
-	if (!d3d11_shader_resource_view_create(d3d11Device, "Data/Textures/General/tile15.png", &spinning_quad_textureView))
+	//if (!d3d11_shader_resource_view_create(d3d11Device, "Data/Textures/General/tile15.png", &spinning_quad_textureView))
+	if (!d3d11_shader_resource_view_create_rgba(d3d11Device, "Data/Textures/General/tile15.rgba", &spinning_quad_textureView))
 	{
 		return false; // Failure
 	}

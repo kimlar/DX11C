@@ -2,6 +2,7 @@ https://stackoverflow.com/questions/21935712/directx-11-how-to-outline-a-boundin
 
 
 TODO List:
+- Implement transparency in D3D11 with the already load RGBA image into memory.
 - Change from wWinMain() to main()
 - For monitors with faster refresh rate than 60 Hz, is there anything here to consider in our code base.
 - Don't forget to include Release() on D3D11 functions: Create()+Delete() pair
@@ -54,3 +55,4 @@ DONE List:
 - Create a basic terrain (although it need much more work to it)
 - Implement a 3rd camera for the player. Make the Player object rotate with the camera. (Fixed the camera rotation glitch)
 - Fix the diagonal speed as you get Sqr(2) instead of 1.
+- Load RGBA image (R8G8B8A8_UNORM) into memory
