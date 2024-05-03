@@ -19,6 +19,7 @@
     <ClCompile Include="Window\Window.c" />
     <ClCompile Include="D3D11\Direct3D.c" />
     <ClCompile Include="D3D11\DepthStencilView.c" />
+    <ClCompile Include="D3D11\BlendState_Transparent.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource\Image\stb_image.h" />
@@ -53,6 +54,9 @@
     <ClInclude Include="Shapes\DrawRectangle.h" />
     <ClInclude Include="Shapes\DrawBox.h" />
     <ClInclude Include="Math\dx_math.h" />
+    <ClInclude Include="FileSystem\file_system_read_binary.h" />
+    <ClInclude Include="D3D11\BlendState_Transparent.h" />
+    <ClInclude Include="GameObject\TransparentQuad.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODO.txt" />

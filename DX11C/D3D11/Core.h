@@ -35,5 +35,6 @@
 #include "ConstantBuffer.h"
 #include "RasterizerState.h"
 #include "DepthStencilView.h"
+#include "BlendState_Transparent.h"
 
 // -------------------------------------------------------------------------------------------------------

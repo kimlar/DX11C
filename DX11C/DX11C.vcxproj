@@ -74,6 +74,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="D3D11\BlendState_Transparent.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="D3D11\ConstantBuffer.c">
       <SubType>
       </SubType>
@@ -114,6 +118,10 @@
   <ItemGroup>
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Collision\AABB_debug_box.h" />
+    <ClInclude Include="D3D11\BlendState_Transparent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="D3D11\ConstantBuffer.h" />
     <ClInclude Include="D3D11\Core.h" />
     <ClInclude Include="D3D11\DebugLayer.h" />
@@ -138,6 +146,7 @@
     <ClInclude Include="FileSystem\file_system_read_binary.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\SpinningQuad.h" />
+    <ClInclude Include="GameObject\TransparentQuad.h" />
     <ClInclude Include="GameObject\WoodenBox.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />

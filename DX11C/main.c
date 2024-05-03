@@ -15,6 +15,7 @@
 #include "Scene/SkyBox.h"
 #include "Scene/Terrain.h"
 #include "GameObject/SpinningQuad.h"
+#include "GameObject/TransparentQuad.h"
 #include "GameObject/WoodenBox.h"
 #include "GameObject/Player.h"
 #include "Math/gpu_math.h"
@@ -53,6 +54,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	// Create Spinning Quad GameObject
 	if (!spinning_quad_create())
+	{
+		exit(1);
+	}
+
+	// Create Transparent Quad GameObject
+	if (!transparent_quad_create())
 	{
 		exit(1);
 	}
@@ -131,6 +138,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// Update the spinning quad
 		spinning_quad_update();
 
+		// Update the transparent quad
+		transparent_quad_update();
+
 		// Update the wooden box
 		wooden_box_update();
 
@@ -206,6 +216,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 			// DrawRectangle render
 			//DrawRectangle_render();
+
+			//
+			// TRANSPARENT PASS: ---------------------------------------------------------------------------------------------
+			//
+			 			
+			// Transparent Quad Pipeline
+			transparent_quad_pipeline();
+
+			// Transparent Quad Render
+			transparent_quad_render();
+
 		}
 		direct3d_post_render(); // Post render
 		// ------------------------------------------------------------------------------------------------
