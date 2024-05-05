@@ -53,3 +53,5 @@ dkms.conf
 /.vs/DX11C
 /DX11C/x64
 /DX11C/DX11C.vcxproj
+/ImageConverter/x64/Debug
+/x64/Debug
