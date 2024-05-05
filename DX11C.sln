@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX11C", "DX11C\DX11C.vcxproj", "{6A31613F-92DE-451F-B064-6A34FF00C719}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageConverter", "ImageConverter\ImageConverter.vcxproj", "{926EBDF9-F0BE-489B-A2C6-CE3C3EBD2A28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{6A31613F-92DE-451F-B064-6A34FF00C719}.Debug|x64.Build.0 = Debug|x64
 		{6A31613F-92DE-451F-B064-6A34FF00C719}.Release|x64.ActiveCfg = Release|x64
 		{6A31613F-92DE-451F-B064-6A34FF00C719}.Release|x64.Build.0 = Release|x64
+		{926EBDF9-F0BE-489B-A2C6-CE3C3EBD2A28}.Debug|x64.ActiveCfg = Debug|x64
+		{926EBDF9-F0BE-489B-A2C6-CE3C3EBD2A28}.Debug|x64.Build.0 = Debug|x64
+		{926EBDF9-F0BE-489B-A2C6-CE3C3EBD2A28}.Release|x64.ActiveCfg = Release|x64
+		{926EBDF9-F0BE-489B-A2C6-CE3C3EBD2A28}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

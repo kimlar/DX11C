@@ -58,6 +58,7 @@ bool d3d11_shader_resource_view_create(ID3D11Device1* d3d11Device, const char* f
 bool d3d11_shader_resource_view_create_rgba(ID3D11Device1* d3d11Device, const char* fileName, ID3D11ShaderResourceView** shaderResourceView)
 {
 	// Load temporary image
+	int texType = 2; // 0: Unknown, 1: RGB, 2: RGBA, 3: Grayscale(1 byte per pixel), 4: Grayscale(2 bytes per pixel), 5: Grayscale(3 bytes per pixel), 6: Grayscale(4 bytes per pixel), 7: Grayscale(4 bytes per pixel as float)
 	int texWidth = 256; // TODO: Get from file
 	int texHeight = 256; // TODO: Get from file
 	int texNumChannels = 4; // TODO: Get from file
