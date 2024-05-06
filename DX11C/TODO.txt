@@ -2,7 +2,7 @@ https://stackoverflow.com/questions/21935712/directx-11-how-to-outline-a-boundin
 
 
 TODO List:
-- Create a CLI tool for converting .png files into .rgba in order for to remove the stb_image.h (it hinders us to use /MT flag so it has to go)
+- Temporary use the image resource files _ImageHeader.header and _ImageData.data until a resource manager is made.
 - Change from wWinMain() to main()
 - For monitors with faster refresh rate than 60 Hz, is there anything here to consider in our code base.
 - Don't forget to include Release() on D3D11 functions: Create()+Delete() pair
@@ -57,3 +57,4 @@ DONE List:
 - Fix the diagonal speed as you get Sqr(2) instead of 1.
 - Load RGBA image (R8G8B8A8_UNORM) into memory
 - Implement transparency in D3D11 with the already load RGBA image into memory.
+- Create a CLI tool for converting .png files into .rgba in order for to remove the stb_image.h (it hinders us to use /MT flag so it has to go)

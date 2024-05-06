@@ -3,6 +3,14 @@
 * 
 *	Purpose: To remove unneccessary .png dependencies in the main game project
 * 
+* 	Structure:
+*	resource_name_length: u8
+*	resource_name: char[resource_name_length]
+*	resource_type: u8 <---- Gives us the resource_type: RGBA_U8, Grayscale_U16, Grayscale_F32
+*	resource_texture_width: u32
+*	resource_texture_height: u32
+*	resource_data: rgba (32 bits per pixel) or grayscale (U16/F32 bits per pixel)
+* 
 */
 
 // Disable warnings
@@ -11,10 +19,21 @@
 // Includes - C standard headers
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
 // Includes - Project headers
 #include "ImageFormat/LoadPNG.h"
+
+#define byte unsigned char
+
+enum ImageResourceType // Can't use 24 bits as GPU only supports 16/32 bits
+{
+	RGBA_U8 = 0,
+	Grayscale_U16 = 1, /* NOT IMPLEMENTED */
+	Grayscale_F32 = 2  /* NOT IMPLEMENTED */
+	// For further formats look at dxgiformat.h
+};
 
 // Prototypes
 const char* get_filename_basename(const char* filename, const char* fileext);
@@ -83,8 +102,8 @@ int main(int argc, char** argv)
 
 
 	//Wizard.png
-	//Wizard_Header.header
-	//Wizard_Data.data
+	//Wizard_ImageHeader.header
+	//Wizard_ImageData.data
 
 	// Get the filename with path and file extension
 	const char* filename = argv[1];
@@ -93,9 +112,14 @@ int main(int argc, char** argv)
 	const char* basename = get_filename_basename(argv[1], "png");
 
 	// Get the filename for the image header file
-	const char* headerFilename = basename_append_extension(basename, "_Header.data");
-	printf("#%s#", headerFilename);
-	
+	const char* imageHeaderFilename = basename_append_extension(basename, "_ImageHeader.data");
+	//printf("#%s#", headerFilename);
+
+	// Get the filename for the image data file
+	const char* imageDataFilename = basename_append_extension(basename, "_ImageData.data");
+	//printf("#%s#", dataFilename);
+
+
 	// Load PNG Image and get image properties
 	int width;
 	int height;
@@ -107,27 +131,41 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 
-	// Write Header file
-	FILE* headerFile = fopen(headerFilename, "wb");
-	if (!headerFile)
+	// Write Image Header file
+	FILE* imageHeaderFile = fopen(imageHeaderFilename, "wb");
+	if (!imageHeaderFile)
 	{
-		printf("Error: Failed to write header file\n");
+		printf("Error: Failed to write image header file\n");
 		exit(1);
 	}
 
-	/*
-	* resource_id: u32
-	* resource_type: u8
-	* resource_name_length: u8
-	* resource_name: char[resource_name_length]
-	* ...
-	* resource_texture_width: u16
-	* resource_texture_height: u16
-	* ...
-	* #resource_data_size infered by: char[resource_texture_width * resource_texture_height * numChannels]
-	* resource_data: rgb/rgba (24/32 bits per pixel)
-	*/
+	
 
+	// Set image resource type
+	byte resourceType = RGBA_U8;
+
+	// Write image header data
+	fprintf(imageHeaderFile, "%c", (byte)strlen(basename));
+	fprintf(imageHeaderFile, "%s", basename);
+	fprintf(imageHeaderFile, "%c", resourceType);
+	fwrite((const void*)&width, sizeof(int), 1, imageHeaderFile);
+	fwrite((const void*)&height, sizeof(int), 1, imageHeaderFile);
+
+	fclose(imageHeaderFile);
+	printf("Image resource header: %s\n", imageHeaderFilename);
+
+	// Write image data (raw image data)
+	FILE* imageDataFile = fopen(imageDataFilename, "wb");
+	if (!imageDataFile)
+	{
+		printf("Error: Failed to write image data file\n");
+		exit(1);
+	}
+
+	fwrite(&textureData[0], width * height * numChannels, 1, imageDataFile);
+
+	fclose(imageDataFile);
+	printf("Image resource data: %s\n", imageDataFilename);
 
 	return 0; // Success
 }

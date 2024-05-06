@@ -7,7 +7,8 @@
 // Load PNG Image
 unsigned char* resource_load_png(const char* filename, int* width, int* height, int* numChannels)
 {
-	int forceNumChannels = 4;
+	//int forceNumChannels = 4;
+	int forceNumChannels = 0;
 	unsigned char* textureData = stbi_load(filename, width, height, numChannels, forceNumChannels);
 	assert(textureData);
 
