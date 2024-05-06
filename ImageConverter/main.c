@@ -39,6 +39,7 @@ enum ImageResourceType // Can't use 24 bits as GPU only supports 16/32 bits
 const char* get_filename_basename(const char* filename, const char* fileext);
 const char* get_filename_ext(const char* filename);
 const char* basename_add_extension(const char* basename, const char* fileext);
+const char* filename_include_path(const char* filename, const char* filepath);
 
 // Get the file name without the file extension (i.e. "Wizard.png" -> "Wizard")
 const char* get_filename_basename(const char* filename, const char* fileext)
@@ -49,13 +50,32 @@ const char* get_filename_basename(const char* filename, const char* fileext)
 		exit(1);
 	}
 
-	size_t basename_length = strlen(filename) - strlen(fileext) - 1;
+	size_t temp_basename_length = strlen(filename) - strlen(fileext) - 1;
+	char* temp_basename = (char*)malloc(temp_basename_length);
+	for (int i = 0; i < temp_basename_length; i++)
+	{
+		temp_basename[i] = filename[i];
+	}
+	temp_basename[temp_basename_length] = '\0';
+
+	// Remove all file path and which gives only the basename
+	int fileNameIndex = 0;
+	size_t basename_length = strlen(temp_basename);
 	char* basename = (char*)malloc(basename_length);
+	for (int i = 0; i < temp_basename_length; i++)
+	{
+		if (temp_basename[i] == '/' || temp_basename[i] == '\\')
+		{
+			fileNameIndex = i;
+		}
+	}
 	for (int i = 0; i < basename_length; i++)
 	{
-		basename[i] = filename[i];
+		basename[i] = temp_basename[fileNameIndex + i + 1];
 	}
 	basename[basename_length] = '\0';
+
+	//printf("Basename: %s\n", basename);
 
 	return basename;
 }
@@ -84,12 +104,29 @@ const char* basename_append_extension(const char* basename, const char* fileext)
 	return newFilename;
 }
 
+const char* filename_include_path(const char* filename, const char* filepath)
+{
+	char* newFilename = (char*)malloc(strlen(filepath) + 1 + strlen(filename) + 1);
+	for (int i = 0; i < strlen(filepath); i++)
+	{
+		newFilename[i] = filepath[i];
+	}
+	newFilename[strlen(filepath)] = '/';
+	for (int i = 0; i < strlen(filename); i++)
+	{
+		newFilename[strlen(filepath) + 1 + i] = filename[i];
+	}
+	newFilename[strlen(filepath) + 1 + strlen(filename)] = '\0';
+
+	return newFilename;
+}
+
 int main(int argc, char** argv)
 {
 	// Check for number of arguments
-	if (argc == 1)
+	if (argc != 3)
 	{
-		printf("Usage: ImageConverter.exe <png_filename>\n");
+		printf("Usage: ImageConverter.exe <png_filename> <destination_folder>\n\n");
 		exit(1);
 	}
 
@@ -112,11 +149,11 @@ int main(int argc, char** argv)
 	const char* basename = get_filename_basename(argv[1], "png");
 
 	// Get the filename for the image header file
-	const char* imageHeaderFilename = basename_append_extension(basename, "_ImageHeader.data");
+	const char* imageHeaderFilename = basename_append_extension(basename, ".image_header");
 	//printf("#%s#", headerFilename);
 
 	// Get the filename for the image data file
-	const char* imageDataFilename = basename_append_extension(basename, "_ImageData.data");
+	const char* imageDataFilename = basename_append_extension(basename, ".image_data");
 	//printf("#%s#", dataFilename);
 
 
@@ -132,7 +169,12 @@ int main(int argc, char** argv)
 	}
 
 	// Write Image Header file
-	FILE* imageHeaderFile = fopen(imageHeaderFilename, "wb");
+	//FILE* imageHeaderFile = fopen(imageHeaderFilename, "wb");
+	const char* imageHeaderFilenameWithPath = filename_include_path(imageHeaderFilename, argv[2]);
+	//printf("#%s#\n", basename);
+	//printf("#%s#\n", imageHeaderFilename);
+	//printf("#%s#\n", imageHeaderFilenameWithPath);
+	FILE* imageHeaderFile = fopen(imageHeaderFilenameWithPath, "wb");
 	if (!imageHeaderFile)
 	{
 		printf("Error: Failed to write image header file\n");
@@ -155,7 +197,9 @@ int main(int argc, char** argv)
 	printf("Image resource header: %s\n", imageHeaderFilename);
 
 	// Write image data (raw image data)
-	FILE* imageDataFile = fopen(imageDataFilename, "wb");
+	//FILE* imageDataFile = fopen(imageDataFilename, "wb");
+	const char* imageDataFilenameWithPath = filename_include_path(imageDataFilename, argv[2]);
+	FILE* imageDataFile = fopen(imageDataFilenameWithPath, "wb");
 	if (!imageDataFile)
 	{
 		printf("Error: Failed to write image data file\n");
