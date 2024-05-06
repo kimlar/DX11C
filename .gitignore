@@ -56,3 +56,4 @@ dkms.conf
 /ImageConverter/x64/Debug
 /x64/Debug
 /ImageConverter/x64/Release
+/ResourceCompiler/x64/Release
