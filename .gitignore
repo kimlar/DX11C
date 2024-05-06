@@ -55,3 +55,4 @@ dkms.conf
 /DX11C/DX11C.vcxproj
 /ImageConverter/x64/Debug
 /x64/Debug
+/ImageConverter/x64/Release
