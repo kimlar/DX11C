@@ -1,6 +1,6 @@
 TODO List:
-- Add support for .png image files loading
-- Convert png to rbga image format (in order to remove this dependency from the main project)
+- Implement -r flag
+- Implement -l flag
 
 ---------------------------------------------------------------------------------------------------------------
 
@@ -8,3 +8,5 @@ DONE List:
 - Add data_types.h
 - Add file_name.h
 - Implement flags: -c -a -r -l -h
+- Add support for .png image files loading
+- Convert png to rbga image format (in order to remove this dependency from the main project)

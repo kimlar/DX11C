@@ -11,5 +11,8 @@
     <ClInclude Include="Common\data_types.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Common\file_name.h" />
+    <ClInclude Include="Image\stb_image.h" />
+    <ClInclude Include="Image\image_png_loader.h" />
+    <ClInclude Include="ResourceType.h" />
   </ItemGroup>
 </Project>

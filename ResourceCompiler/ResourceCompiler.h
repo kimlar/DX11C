@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Common.h"
+#include "ResourceType.h"
+#include "Image/image_png_loader.h"
 
 // Prototypes
 u32 resource_compiler_create(str resource_filename);
-u32 resource_compiler_add(str item_filename, str resource_name);
-u32 resource_compiler_remove(str item_filename, str resource_name);
+u32 resource_compiler_add(str item_filename, str resource_filename);
+u32 resource_compiler_remove(str item_filename, str resource_filename);
 u32 resource_compiler_list(str resource_filename);
 u32 resource_compiler_help();
 u32 resource_compiler_incorrect_usage();
@@ -15,32 +17,117 @@ u32 resource_compiler_incorrect_usage();
 // Create a new resource file (blank file)
 u32 resource_compiler_create(str resource_filename)
 {
-	str file_path = get_file_path(resource_filename);
-	str file_path_with_last_slash = get_file_path_with_last_slash(resource_filename);
-	str file_fullname = get_file_fullname(resource_filename);
-	str file_basename = get_file_basename(resource_filename);
-	str file_extension = get_file_extension(resource_filename);
-	str file_extension_with_dot = get_file_extension_with_dot(resource_filename);
+	// Create a new resource file. Truncate the file if it already exists.
+	FILE* resource_file = fopen(resource_filename, "wb");
+	if (resource_file == NULL)
+	{
+		printf("Error: Failed to create resource file: %s\n", resource_filename);
+		return 1; // Failed
+	}
 
-	//...
-	
-	free(file_path);
-	free(file_path_with_last_slash);
-	free(file_fullname);
-	free(file_basename);
-	free(file_extension);
-	free(file_extension_with_dot);
+	// Close the file
+	fclose(resource_file);
+
 	return 0;
 }
 
 // Add a resource item to an existing resource file
-u32 resource_compiler_add(str item_filename, str resource_name)
+u32 resource_compiler_add(str item_filename, str resource_filename)
 {
+	// Readying the header
+	u32 header_size = 0;
+	u32 data_size = 0;
+	u32 data_type = get_resource_type(get_file_extension(item_filename));
+	str data_name = get_file_basename(item_filename);
+
+	// Calculate the header size
+	header_size = sizeof(header_size) + sizeof(data_size) + sizeof(data_type) + (u32)strlen(data_name);
+
+	// Inform user about current item file to be added into the resource file
+	printf("Adding: %s\n", get_file_fullname(item_filename));
+
+	// Get the data size
+	FILE* item_file = fopen(item_filename, "rb");
+	if (item_file == NULL)
+	{
+		printf("Error: Failed to open item file: %s\n", item_filename);
+		return 1;
+	}
+
+	fseek(item_file, 0, SEEK_END);
+	data_size = ftell(item_file);
+
+	// Close the item file
+	fclose(item_file);
+
+	// Add the item to the resource file
+	if (data_type == Image_RGBA_U8_ResourceType)
+	{
+		int width;
+		int height;
+		int numChannels;
+		byte* image_data = image_png_load_file(item_filename, &width, &height, &numChannels);
+		if (image_data == NULL)
+		{
+			printf("Error: Failed to load image file: %s\n", item_filename);
+			exit(1);
+		}
+
+		// Get the data type
+		data_type = (u8)Unknown_ImageResourceType;
+		if (numChannels == 4)
+		{
+			data_type = (u8)RGBA_U8_ImageResourceType;
+		}
+
+		// Get image width and height
+		u32 image_width = width;
+		u32 image_height = height;
+
+		// Calculate the data size (image_width + image_height + image_data_size)
+		data_size = sizeof(image_width) + sizeof(image_height) + (image_width * image_height * 4);
+
+		// Add a resource item to an existing resource file
+		FILE* resource_file = fopen(resource_filename, "ab");
+		if (resource_file == NULL)
+		{
+			printf("Error: Failed to open resource file: %s\n", resource_filename);
+			return 1;
+		}
+
+		// Write the header
+		fwrite(&header_size, sizeof(header_size), 1, resource_file);
+		fwrite(&data_size, sizeof(data_size), 1, resource_file);
+		fwrite(&data_type, sizeof(data_type), 1, resource_file);
+		fwrite(data_name, strlen(data_name), 1, resource_file);
+
+		// Write the data
+		fwrite(&image_width, sizeof(image_width), 1, resource_file);
+		fwrite(&image_height, sizeof(image_height), 1, resource_file);
+		fwrite(image_data, sizeof(byte) * image_width * image_height * 4, 1, resource_file);
+
+		// Free the image data
+		free(image_data);
+
+		// Close the file
+		fclose(resource_file);
+
+		return 0; // Finish with the job
+	}
+	if (data_type == Shader_Pixel_ResourceType)
+	{
+		return 0;
+	}
+	if (data_type == Shader_Vertex_ResourceType)
+	{
+		return 0;
+	}
+
 	return 0;
 }
 
 // Remove a resource item from an existing resource file
-u32 resource_compiler_remove(str item_filename, str resource_name)
+u32 resource_compiler_remove(str item_filename, str resource_filename)
 {
 	return 0;
 }
