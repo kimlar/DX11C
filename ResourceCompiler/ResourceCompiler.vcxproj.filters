@@ -3,4 +3,13 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ResourceCompiler.h" />
+    <ClInclude Include="Common\data_types.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="Common\file_name.h" />
+  </ItemGroup>
 </Project>

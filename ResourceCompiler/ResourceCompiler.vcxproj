@@ -83,6 +83,15 @@
       </SubType>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="Common\data_types.h" />
+    <ClInclude Include="Common\file_name.h" />
+    <ClInclude Include="ResourceCompiler.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

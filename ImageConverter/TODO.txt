@@ -1,0 +1,6 @@
+TODO List:
+- Refactor code
+- Add error system/code and assert()
+- Complete the malloc() and free() pair to avoid memory leakage.
+- Implement Grayscale_U16
+- Implement Grayscale_F32

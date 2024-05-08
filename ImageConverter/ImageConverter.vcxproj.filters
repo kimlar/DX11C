@@ -8,4 +8,7 @@
     <ClInclude Include="ImageFormat\LoadPNG.h" />
     <ClInclude Include="ImageFormat\stb_image.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODO.txt" />
+  </ItemGroup>
 </Project>
