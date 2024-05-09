@@ -1,4 +1,5 @@
 TODO List:
+- Make a simple header file for fopen(): file_core.h --> file_core_open_binary_file(), file_core_open_binary_file_append(), ...
 - Implement -r flag
 - Implement -l flag
 

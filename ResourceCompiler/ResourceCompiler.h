@@ -142,7 +142,7 @@ u32 resource_compiler_list(str resource_filename)
 u32 resource_compiler_help()
 {
 	printf("Flags:\n");
-	printf("  -c Create a new blank resource file.\n");
+	printf("  -c Create a new blank resource file. Truncate the file if it already exists.\n");
 	printf("  -a Add a resource item to an existing resource file.\n");
 	printf("  -r Remove a resource item from an existing resource file.\n");
 	printf("  -l List all resource items in an existing resource file.\n");
