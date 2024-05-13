@@ -1,11 +1,11 @@
 TODO List:
-- Make a simple header file for fopen(): file_core.h --> file_core_open_binary_file(), file_core_open_binary_file_append(), ...
 - Implement -r flag
 - Implement -l flag
 
 ---------------------------------------------------------------------------------------------------------------
 
 DONE List:
+- Add file_data.h
 - Add data_types.h
 - Add file_name.h
 - Implement flags: -c -a -r -l -h
