@@ -11,3 +11,4 @@ typedef unsigned long long u64;
 
 typedef unsigned char      byte;
 typedef char*              str;
+typedef wchar_t*           winstr; // Windows string (UTF-16)

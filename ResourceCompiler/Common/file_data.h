@@ -1,11 +1,13 @@
 #pragma once
 
 /*
-* File data functions utilities
+* File data functions utilities for binary and text files (read and write data)
 * 
+* TODO: Implement text file
 * 
 */
 
+// Types
 typedef FILE* binary_file;
 typedef FILE* text_file;
 typedef u64 file_size;
@@ -24,7 +26,8 @@ void binary_file_write_u16(void* data, binary_file file);
 void binary_file_write_u32(void* data, binary_file file);
 void binary_file_write_u64(void* data, binary_file file);
 void binary_file_write_byte(void* data, u64 size, binary_file file);
-void binary_file_write_str(void* data, u64 size, binary_file file);
+void binary_file_write_str(str text, binary_file file);
+void binary_file_write_elements(void* data, u64 size, u64 count, binary_file file);
 void binary_file_close(binary_file file);
 
 // Prototypes: Text file
@@ -121,12 +124,16 @@ void binary_file_write_u64(void* data, binary_file file)
 void binary_file_write_byte(void* data, u64 size, binary_file file)
 {
 	fwrite(data, sizeof(byte), size, file);
-	//fwrite(image_data, sizeof(byte) * image_width * image_height * 4, 1, resource_file);
 }
 // Write 'str' data to a binary file
-void binary_file_write_str(void* data, u64 size, binary_file file)
+void binary_file_write_str(str text, binary_file file)
 {
-	fwrite(data, size, 1, file);
+	fwrite(text, sizeof(str), 1, file);
+}
+// Write 'elements'(s) data to a binary file (as typical fwrite())
+void binary_file_write_elements(void* data, u64 size, u64 count, binary_file file)
+{
+	fwrite(data, size, count, file);
 }
 // Close a binary file
 void binary_file_close(binary_file file)

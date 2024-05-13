@@ -85,7 +85,7 @@ u32 resource_compiler_add(str item_filename, str resource_filename)
 		binary_file_write_u32(&header_size, resource_file);
 		binary_file_write_u64(&data_size, resource_file);
 		binary_file_write_u32(&data_type, resource_file);
-		binary_file_write_str(data_name, strlen(data_name), resource_file);
+		binary_file_write_str(data_name, resource_file);
 
 		// Write the data
 		binary_file_write_u32(&image_width, resource_file);
