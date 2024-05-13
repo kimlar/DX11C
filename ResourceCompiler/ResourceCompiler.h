@@ -47,11 +47,13 @@ u32 resource_compiler_add(str item_filename, str resource_filename)
 	printf("Adding: %s\n", get_file_fullname(item_filename));
 	
 	// Add the item to the resource file
-	u32 image_width = 0;
-	u32 image_height = 0;
-	u32 image_numChannels = 0;
 	if (data_type == Image_RGBA_U8_ResourceType)
 	{
+		// Image properties
+		u32 image_width = 0;
+		u32 image_height = 0;
+		u32 image_numChannels = 0;
+
 		// Get the image data, width and height
 		byte* image_data = image_png_load_file(item_filename, &image_width, &image_height, &image_numChannels);
 		if (image_data == NULL)
