@@ -47,12 +47,13 @@ u32 resource_compiler_add(str item_filename, str resource_filename)
 	printf("Adding: %s\n", get_file_fullname(item_filename));
 	
 	// Add the item to the resource file
+	u32 image_width = 0;
+	u32 image_height = 0;
+	u32 image_numChannels = 0;
 	if (data_type == Image_RGBA_U8_ResourceType)
 	{
-		int width;
-		int height;
-		int numChannels;
-		byte* image_data = image_png_load_file(item_filename, &width, &height, &numChannels);
+		// Get the image data, width and height
+		byte* image_data = image_png_load_file(item_filename, &image_width, &image_height, &image_numChannels);
 		if (image_data == NULL)
 		{
 			printf("Error: Failed to load image file: %s\n", item_filename);
@@ -60,15 +61,11 @@ u32 resource_compiler_add(str item_filename, str resource_filename)
 		}
 
 		// Get the data type
-		data_type = (u8)Unknown_ImageResourceType;
-		if (numChannels == 4)
+		data_type = Unknown_ImageResourceType;
+		if (image_numChannels == 4)
 		{
-			data_type = (u8)RGBA_U8_ImageResourceType;
+			data_type = RGBA_U8_ImageResourceType;
 		}
-
-		// Get image width and height
-		u32 image_width = width;
-		u32 image_height = height;
 
 		// Calculate the data size (image_width + image_height + image_data_size)
 		data_size = sizeof(image_width) + sizeof(image_height) + (image_width * image_height * 4);
