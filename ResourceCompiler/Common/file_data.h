@@ -17,17 +17,28 @@ binary_file binary_file_write_new(str filename);
 binary_file binary_file_write_append(str filename);
 binary_file binary_file_read(str filename);
 file_size binary_file_get_size(str filename);
-void binary_file_write_i8(void* data, binary_file file);
-void binary_file_write_i16(void* data, binary_file file);
-void binary_file_write_i32(void* data, binary_file file);
-void binary_file_write_i64(void* data, binary_file file);
-void binary_file_write_u8(void* data, binary_file file);
-void binary_file_write_u16(void* data, binary_file file);
-void binary_file_write_u32(void* data, binary_file file);
-void binary_file_write_u64(void* data, binary_file file);
-void binary_file_write_byte(void* data, u64 size, binary_file file);
-void binary_file_write_str(str text, binary_file file);
-void binary_file_write_elements(void* data, u64 size, u64 count, binary_file file);
+bool binary_file_write_i8(void* data, binary_file file);
+bool binary_file_write_i16(void* data, binary_file file);
+bool binary_file_write_i32(void* data, binary_file file);
+bool binary_file_write_i64(void* data, binary_file file);
+bool binary_file_write_u8(void* data, binary_file file);
+bool binary_file_write_u16(void* data, binary_file file);
+bool binary_file_write_u32(void* data, binary_file file);
+bool binary_file_write_u64(void* data, binary_file file);
+bool binary_file_write_byte(void* data, u64 size, binary_file file);
+bool binary_file_write_str(str text, binary_file file);
+bool binary_file_write_elements(void* data, u64 size, u64 count, binary_file file);
+bool binary_file_read_i8(void* data, binary_file file);
+bool binary_file_read_i16(void* data, binary_file file);
+bool binary_file_read_i32(void* data, binary_file file);
+bool binary_file_read_i64(void* data, binary_file file);
+bool binary_file_read_u8(void* data, binary_file file);
+bool binary_file_read_u16(void* data, binary_file file);
+bool binary_file_read_u32(void* data, binary_file file);
+bool binary_file_read_u64(void* data, binary_file file);
+bool binary_file_read_byte(void* data, u64 size, binary_file file);
+bool binary_file_read_str(str text, u64 size, binary_file file);
+bool binary_file_read_elements(void* data, u64 size, u64 count, binary_file file);
 void binary_file_close(binary_file file);
 
 // Prototypes: Text file
@@ -81,60 +92,205 @@ file_size binary_file_get_size(str filename)
 	return data_size; // Return the data size of the binary file
 }
 // Write 'i8' data to a binary file
-void binary_file_write_i8(void* data, binary_file file)
+bool binary_file_write_i8(void* data, binary_file file)
 {
-	fwrite(data, sizeof(i8), 1, file);
+	u32 number_of_elements = (u32)fwrite(data, sizeof(i8), 1, file);
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'i16' data to a binary file
-void binary_file_write_i16(void* data, binary_file file)
+bool binary_file_write_i16(void* data, binary_file file)
 {
-	fwrite(data, sizeof(i16), 1, file);
+	u32 number_of_elements = (u32)fwrite(data, sizeof(i16), 1, file);
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'i32' data to a binary file
-void binary_file_write_i32(void* data, binary_file file)
+bool binary_file_write_i32(void* data, binary_file file)
 {
-	fwrite(data, sizeof(i32), 1, file);
+	u32 number_of_elements = (u32)fwrite(data, sizeof(i32), 1, file);
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'i64' data to a binary file
-void binary_file_write_i64(void* data, binary_file file)
+bool binary_file_write_i64(void* data, binary_file file)
 {
-	fwrite(data, sizeof(i64), 1, file);
+	u32 number_of_elements = (u32)fwrite(data, sizeof(i64), 1, file);
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'u8' data to a binary file
-void binary_file_write_u8(void* data, binary_file file)
+bool binary_file_write_u8(void* data, binary_file file)
 {
-	fwrite(data, sizeof(u8), 1, file);
+	u32 number_of_elements = (u32)fwrite(data, sizeof(u8), 1, file);
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'u16' data to a binary file
-void binary_file_write_u16(void* data, binary_file file)
+bool binary_file_write_u16(void* data, binary_file file)
 {
-	fwrite(data, sizeof(u16), 1, file);
+	u32 number_of_elements = (u32)fwrite(data, sizeof(u16), 1, file);
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'u32' data to a binary file
-void binary_file_write_u32(void* data, binary_file file)
+bool binary_file_write_u32(void* data, binary_file file)
 {
-	fwrite(data, sizeof(u32), 1, file);
+	u32 number_of_elements = (u32)fwrite(data, sizeof(u32), 1, file);
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'u64' data to a binary file
-void binary_file_write_u64(void* data, binary_file file)
+bool binary_file_write_u64(void* data, binary_file file)
 {
-	fwrite(data, sizeof(u64), 1, file);
+	u32 number_of_elements = (u32)fwrite(data, sizeof(u64), 1, file);
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'byte'(s) data to a binary file
-void binary_file_write_byte(void* data, u64 size, binary_file file)
+bool binary_file_write_byte(void* data, u64 size, binary_file file)
 {
-	fwrite(data, sizeof(byte), size, file);
+	u32 number_of_elements = (u32)fwrite(data, sizeof(byte), size, file);
+	if (number_of_elements != size)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'str' data to a binary file
-void binary_file_write_str(str text, binary_file file)
+bool binary_file_write_str(str text, binary_file file)
 {
-	fwrite(text, strlen(text), 1, file);
+	u32 number_of_elements = (u32)fwrite(text, strlen(text), 1, file);
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
 // Write 'elements'(s) data to a binary file (as typical fwrite())
-void binary_file_write_elements(void* data, u64 size, u64 count, binary_file file)
+bool binary_file_write_elements(void* data, u64 size, u64 count, binary_file file)
 {
-	fwrite(data, size, count, file);
+	u32 number_of_elements = (u32)fwrite(data, size, count, file);
+	if (number_of_elements != count)
+		return false; // Something went wrong while trying to write the data
+
+	return true; // Success
 }
+// Read 'i8' data from a binary file
+bool binary_file_read_i8(void* data, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(data, sizeof(i8), 1, file); // Note: While technically fread returns size_t, we cap it to u32 (unlikely scenario)
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'i16' data from a binary file
+bool binary_file_read_i16(void* data, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(data, sizeof(i16), 1, file); // Note: While technically fread returns size_t, we cap it to u32 (unlikely scenario)
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'i32' data from a binary file
+bool binary_file_read_i32(void* data, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(data, sizeof(i32), 1, file); // Note: While technically fread returns size_t, we cap it to u32 (unlikely scenario)
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'i64' data from a binary file
+bool binary_file_read_i64(void* data, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(data, sizeof(i64), 1, file); // Note: While technically fread returns size_t, we cap it to u32 (unlikely scenario)
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'u8' data from a binary file
+bool binary_file_read_u8(void* data, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(data, sizeof(u8), 1, file); // Note: While technically fread returns size_t, we cap it to u32 (unlikely scenario)
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'u16' data from a binary file
+bool binary_file_read_u16(void* data, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(data, sizeof(u16), 1, file); // Note: While technically fread returns size_t, we cap it to u32 (unlikely scenario)
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'u32' data from a binary file
+bool binary_file_read_u32(void* data, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(data, sizeof(u32), 1, file); // Note: While technically fread returns size_t, we cap it to u32 (unlikely scenario)
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'u64' data from a binary file
+bool binary_file_read_u64(void* data, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(data, sizeof(u64), 1, file); // Note: While technically fread returns size_t, we cap it to u32 (unlikely scenario)
+	if (number_of_elements != 1)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'byte'(s) data from a binary file
+bool binary_file_read_byte(void* data, u64 size, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(data, sizeof(byte), size, file); // Note: While technically fread returns size_t, we cap it to u32 (unlikely scenario)
+	if (number_of_elements != size)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'str' data from a binary file
+bool binary_file_read_str(str text, u64 size, binary_file file)
+{
+	u32 number_of_elements = (u32)fread(text, size, 1, file);
+	text[size] = '\0';
+	if(number_of_elements != 1)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+// Read 'elements'(s) data from a binary file
+bool binary_file_read_elements(void* data, u64 size, u64 count, binary_file file)
+{
+	u64 number_of_elements = (u64)fread(data, size, count, file); // Note: While technically fread returns size_t, we cap it to u64 (unlikely scenario)
+	if (number_of_elements != count)
+		return false; // Something went wrong while trying to read the data
+
+	return true; // Success
+}
+
 // Close a binary file
 void binary_file_close(binary_file file)
 {

@@ -138,26 +138,44 @@ u32 resource_compiler_list(str resource_filename)
 	{
 		// Get header size
 		u32 header_size = 0;
-		fread(&header_size, sizeof(header_size), 1, resource_file);
+		if (!binary_file_read_u32(&header_size, resource_file))
+		{
+			printf("Error: Failed to read header size in resource file: %s\n", resource_filename);
+			return 1; // Failed!
+		}
 		i += sizeof(header_size);
-		if(header_size == 0)
-			break;
 
 		// Get data size
 		file_size data_size = 0;
-		fread(&data_size, sizeof(data_size), 1, resource_file);
+		if (!binary_file_read_u64(&data_size, resource_file))
+		{
+			printf("Error: Failed to read data size in resource file: %s\n", resource_filename);
+			return 1; // Failed!
+		}
 		i += sizeof(data_size);
 
 		// Get data type
 		u32 data_type = 0;
-		fread(&data_type, sizeof(data_type), 1, resource_file);
+		if (!binary_file_read_u32(&data_type, resource_file))
+		{
+			printf("Error: Failed to read data type in resource file: %s\n", resource_filename);
+			return 1; // Failed!
+		}
 		i += sizeof(data_type);
 
 		// Get data name
 		u32 data_name_length = header_size - sizeof(header_size) - sizeof(data_size) - sizeof(data_type);
+		if (data_name_length == 0)
+		{
+			printf("Error: Failed to read data name length in resource file: %s\n", resource_filename);
+			return 1; // Failed!
+		}
 		str data_name = malloc(data_name_length);
-		fread(data_name, data_name_length, 1, resource_file);
-		data_name[data_name_length] = '\0';
+		if (!binary_file_read_str(data_name, data_name_length, resource_file))
+		{
+			printf("Error: Failed to read data name in resource file: %s\n", resource_filename);
+			return 1; // Failed!
+		}
 		i += data_name_length;
 
 		// List current item
@@ -167,7 +185,8 @@ u32 resource_compiler_list(str resource_filename)
 		free(data_name);
 
 		// Jump to next item in the resource file
-		_fseeki64(resource_file, data_size, SEEK_CUR); // Note: the regular fseek supports only file sizes up to 2GB. This one supports up to 8 Exabytes.
+		_fseeki64(resource_file, data_size, SEEK_CUR); // Note: the regular fseek() supports only file sizes up to 2GB. This _fseeki64() supports up to 8 Exabytes.
+		i += data_size;
 	}
 
 	binary_file_close(resource_file);
