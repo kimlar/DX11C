@@ -57,3 +57,4 @@ dkms.conf
 /x64/Debug
 /ImageConverter/x64/Release
 /ResourceCompiler/x64/Release
+/DX11C/Data/Resource.pack
