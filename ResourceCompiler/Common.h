@@ -10,6 +10,9 @@
 #include <stdbool.h>
 #include <assert.h>
 
-// Includes - Project headers
+// Includes - Common headers
 #include "Common/data_types.h"
 #include "Common/file_name.h"
+#include "Common/file_data.h"
+
+// Includes - Project headers

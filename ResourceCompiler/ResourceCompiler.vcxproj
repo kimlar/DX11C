@@ -89,6 +89,7 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Common\data_types.h" />
+    <ClInclude Include="Common\file_data.h" />
     <ClInclude Include="Common\file_name.h" />
     <ClInclude Include="Image\image_png_loader.h" />
     <ClInclude Include="Image\stb_image.h" />

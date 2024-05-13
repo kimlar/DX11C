@@ -18,7 +18,7 @@ u32 resource_compiler_incorrect_usage();
 u32 resource_compiler_create(str resource_filename)
 {
 	// Create a new resource file. Truncate the file if it already exists.
-	FILE* resource_file = fopen(resource_filename, "wb");
+	binary_file resource_file = binary_file_write_new(resource_filename);
 	if (resource_file == NULL)
 	{
 		printf("Error: Failed to create resource file: %s\n", resource_filename);
@@ -26,7 +26,7 @@ u32 resource_compiler_create(str resource_filename)
 	}
 
 	// Close the file
-	fclose(resource_file);
+	binary_file_close(resource_file);
 
 	return 0;
 }
@@ -36,7 +36,7 @@ u32 resource_compiler_add(str item_filename, str resource_filename)
 {
 	// Readying the header
 	u32 header_size = 0;
-	u32 data_size = 0;
+	file_size data_size = binary_file_get_size(item_filename);
 	u32 data_type = get_resource_type(get_file_extension(item_filename));
 	str data_name = get_file_basename(item_filename);
 
@@ -45,21 +45,7 @@ u32 resource_compiler_add(str item_filename, str resource_filename)
 
 	// Inform user about current item file to be added into the resource file
 	printf("Adding: %s\n", get_file_fullname(item_filename));
-
-	// Get the data size
-	FILE* item_file = fopen(item_filename, "rb");
-	if (item_file == NULL)
-	{
-		printf("Error: Failed to open item file: %s\n", item_filename);
-		return 1;
-	}
-
-	fseek(item_file, 0, SEEK_END);
-	data_size = ftell(item_file);
-
-	// Close the item file
-	fclose(item_file);
-
+	
 	// Add the item to the resource file
 	if (data_type == Image_RGBA_U8_ResourceType)
 	{
@@ -88,7 +74,7 @@ u32 resource_compiler_add(str item_filename, str resource_filename)
 		data_size = sizeof(image_width) + sizeof(image_height) + (image_width * image_height * 4);
 
 		// Add a resource item to an existing resource file
-		FILE* resource_file = fopen(resource_filename, "ab");
+		binary_file resource_file = binary_file_write_append(resource_filename);
 		if (resource_file == NULL)
 		{
 			printf("Error: Failed to open resource file: %s\n", resource_filename);
@@ -96,21 +82,21 @@ u32 resource_compiler_add(str item_filename, str resource_filename)
 		}
 
 		// Write the header
-		fwrite(&header_size, sizeof(header_size), 1, resource_file);
-		fwrite(&data_size, sizeof(data_size), 1, resource_file);
-		fwrite(&data_type, sizeof(data_type), 1, resource_file);
-		fwrite(data_name, strlen(data_name), 1, resource_file);
+		binary_file_write_u32(&header_size, resource_file);
+		binary_file_write_u64(&data_size, resource_file);
+		binary_file_write_u32(&data_type, resource_file);
+		binary_file_write_str(data_name, strlen(data_name), resource_file);
 
 		// Write the data
-		fwrite(&image_width, sizeof(image_width), 1, resource_file);
-		fwrite(&image_height, sizeof(image_height), 1, resource_file);
-		fwrite(image_data, sizeof(byte) * image_width * image_height * 4, 1, resource_file);
+		binary_file_write_u32(&image_width, resource_file);
+		binary_file_write_u32(&image_height, resource_file);
+		binary_file_write_byte(image_data, sizeof(byte) * image_width * image_height * 4, resource_file);
+
+		// Close the file
+		binary_file_close(resource_file);
 
 		// Free the image data
 		free(image_data);
-
-		// Close the file
-		fclose(resource_file);
 
 		return 0; // Finish with the job
 	}
