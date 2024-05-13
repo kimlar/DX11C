@@ -185,7 +185,7 @@ u32 resource_compiler_list(str resource_filename)
 		free(data_name);
 
 		// Jump to next item in the resource file
-		if (!binary_file_seek_position(data_size, resource_file))
+		if (!binary_file_set_position(data_size, resource_file))
 		{
 			printf("Error: Failed to jump to next item in resource file: %s\n", resource_filename);
 			return 1; // Failed!

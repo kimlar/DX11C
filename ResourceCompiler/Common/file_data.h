@@ -39,9 +39,10 @@ bool binary_file_read_u64(void* data, binary_file file);
 bool binary_file_read_byte(void* data, u64 size, binary_file file);
 bool binary_file_read_str(str text, u64 size, binary_file file);
 bool binary_file_read_elements(void* data, u64 size, u64 count, binary_file file);
-bool binary_file_seek_begin(binary_file file);
-bool binary_file_seek_position(file_size position, binary_file file);
-bool binary_file_seek_end(binary_file file);
+bool binary_file_set_position_begin(binary_file file);
+bool binary_file_set_position(file_size position, binary_file file);
+bool binary_file_set_position_end(binary_file file);
+file_size binary_file_get_position(binary_file file);
 void binary_file_close(binary_file file);
 
 // Prototypes: Text file
@@ -294,19 +295,24 @@ bool binary_file_read_elements(void* data, u64 size, u64 count, binary_file file
 	return true; // Success
 }
 // Seek to the beginning of a binary file
-bool binary_file_seek_begin(binary_file file)
+bool binary_file_set_position_begin(binary_file file)
 {
 	return (_fseeki64(file, 0, SEEK_SET) == 0); // Returns true if the seek returns 0 meaning that the seek was successful
 }
 // Seek to a specific position in a binary file
-bool binary_file_seek_position(file_size position, binary_file file)
+bool binary_file_set_position(file_size position, binary_file file)
 {
 	return (_fseeki64(file, position, SEEK_CUR) == 0); // Returns true if the seek returns 0 meaning that the seek was successful
 }
 // Seek to the end of a binary file
-bool binary_file_seek_end(binary_file file)
+bool binary_file_set_position_end(binary_file file)
 {
 	return (_fseeki64(file, 0, SEEK_END) == 0); // Note: the regular fseek() supports only file sizes up to 2GB. This _fseeki64() supports up to 8 Exabytes.
+}
+// Get the current position in a binary file
+file_size binary_file_get_position(binary_file file)
+{
+	return _ftelli64(file);
 }
 // Close a binary file
 void binary_file_close(binary_file file)
