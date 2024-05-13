@@ -59,7 +59,7 @@ u32 resource_compiler_add(str item_filename, str resource_filename)
 		if (image_data == NULL)
 		{
 			printf("Error: Failed to load image file: %s\n", item_filename);
-			exit(1);
+			return 1;
 		}
 
 		// Get the data type
@@ -120,6 +120,58 @@ u32 resource_compiler_remove(str item_filename, str resource_filename)
 // List all resource items in an existing resource file
 u32 resource_compiler_list(str resource_filename)
 {
+	// Open the resource file
+	binary_file resource_file = binary_file_read(resource_filename);
+	if (resource_file == NULL)
+	{
+		printf("Error: Failed to open resource file: %s\n", resource_filename);
+		return 1; // Failed!
+	}
+
+	// Get the size of the resource file
+	file_size resource_file_size = binary_file_get_size(resource_filename);
+	if (resource_file_size == 0)
+		return 0;
+
+	// Loop through all resource items in the resource file
+	for (file_size i = 0; i < resource_file_size;)
+	{
+		// Get header size
+		u32 header_size = 0;
+		fread(&header_size, sizeof(header_size), 1, resource_file);
+		i += sizeof(header_size);
+		if(header_size == 0)
+			break;
+
+		// Get data size
+		file_size data_size = 0;
+		fread(&data_size, sizeof(data_size), 1, resource_file);
+		i += sizeof(data_size);
+
+		// Get data type
+		u32 data_type = 0;
+		fread(&data_type, sizeof(data_type), 1, resource_file);
+		i += sizeof(data_type);
+
+		// Get data name
+		u32 data_name_length = header_size - sizeof(header_size) - sizeof(data_size) - sizeof(data_type);
+		str data_name = malloc(data_name_length);
+		fread(data_name, data_name_length, 1, resource_file);
+		data_name[data_name_length] = '\0';
+		i += data_name_length;
+
+		// List current item
+		printf("%s.%s\n", data_name, get_resource_type_name(data_type));
+		
+		// Clean up
+		free(data_name);
+
+		// Jump to next item in the resource file
+		_fseeki64(resource_file, data_size, SEEK_CUR); // Note: the regular fseek supports only file sizes up to 2GB. This one supports up to 8 Exabytes.
+	}
+
+	binary_file_close(resource_file);
+
 	return 0;
 }
 

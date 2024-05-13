@@ -1,10 +1,10 @@
 TODO List:
 - Implement -r flag
-- Implement -l flag
 
 ---------------------------------------------------------------------------------------------------------------
 
 DONE List:
+- Implement -l flag
 - Add file_data.h
 - Add data_types.h
 - Add file_name.h

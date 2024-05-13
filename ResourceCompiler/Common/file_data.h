@@ -128,7 +128,7 @@ void binary_file_write_byte(void* data, u64 size, binary_file file)
 // Write 'str' data to a binary file
 void binary_file_write_str(str text, binary_file file)
 {
-	fwrite(text, sizeof(str), 1, file);
+	fwrite(text, strlen(text), 1, file);
 }
 // Write 'elements'(s) data to a binary file (as typical fwrite())
 void binary_file_write_elements(void* data, u64 size, u64 count, binary_file file)

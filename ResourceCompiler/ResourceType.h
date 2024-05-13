@@ -45,3 +45,21 @@ u32 get_resource_type(str file_extension)
 
 	return Unknown_ResourceType; // Did not find a match
 }
+
+str get_resource_type_name(u32 resource_type)
+{
+	switch (resource_type)
+	{
+		case Image_RGBA_U8_ResourceType: return "png";
+		case Model_Obj_ResourceType: return "obj";
+		case Shader_Vertex_ResourceType: return "vs";
+		case Shader_Pixel_ResourceType: return "ps";
+		case Shader_Geometry_ResourceType: return "gs";
+		case Level_ResourceType: return "lvl";
+		case Script_Lua_ResourceType: return "lua";
+		case Sound_ResourceType: return "wav";
+		case Music_ResourceType: return "mus";
+		case Font_ResourceType: return "ttf";
+		default: return "unknown";
+	}
+}

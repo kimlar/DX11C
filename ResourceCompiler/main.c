@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 		return resource_compiler_add(argv[2], argv[3]);
 
 	// Remove?
-	if (argc == 4 && argv[1][0] == '-' && argv[1][1] == 'r')
+	if (argc == 5 && argv[1][0] == '-' && argv[1][1] == 'r')
 		return resource_compiler_remove(argv[2], argv[3]);
 
 	// List?
