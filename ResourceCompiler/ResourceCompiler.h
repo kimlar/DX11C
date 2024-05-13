@@ -185,7 +185,11 @@ u32 resource_compiler_list(str resource_filename)
 		free(data_name);
 
 		// Jump to next item in the resource file
-		_fseeki64(resource_file, data_size, SEEK_CUR); // Note: the regular fseek() supports only file sizes up to 2GB. This _fseeki64() supports up to 8 Exabytes.
+		if (!binary_file_seek_position(data_size, resource_file))
+		{
+			printf("Error: Failed to jump to next item in resource file: %s\n", resource_filename);
+			return 1; // Failed!
+		}
 		i += data_size;
 	}
 
