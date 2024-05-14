@@ -1,9 +1,10 @@
 TODO List:
-- Implement -r flag
+- Test and verify that it works with game
 
 ---------------------------------------------------------------------------------------------------------------
 
 DONE List:
+- Implement -r flag
 - Implement -l flag
 - Add file_data.h
 - Add data_types.h

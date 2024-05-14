@@ -187,6 +187,7 @@ u32 resource_compiler_remove(str item_filename, str resource_filename)
 				// Keep the end position index of the current resource item in the resource file
 				i_end = i + data_size;
 
+				// Allocate memory for the data
 				file_size bin_data_size = resource_file_size - (i_end - i_begin);
 				byte* bin_data = malloc(bin_data_size);
 				if (bin_data == NULL)
@@ -195,66 +196,53 @@ u32 resource_compiler_remove(str item_filename, str resource_filename)
 					return 1; // Failed!
 				}
 
-				binary_file_set_position_begin(resource_file);
-
 				// part1 bin_data[0-32838]
 				// part2 bin_data[295012-14467349]
 				// delta_size = 295012 - 32838 = 262174 (size of tile03 RGBA_U8 image + header size + ...)
 				// new_bin_data_size = 14467349 - (295012 - 32838) = 14205175
-				//13943000
-				printf("resource_file_size: %llu\n", resource_file_size);
-				printf("i_begin: %llu\n", i_begin);
-				printf("i_end: %llu\n", i_end);
-				printf("i_end - i_begin: %llu\n", i_end - i_begin);
-				printf("bin_data_size: %llu\n", bin_data_size);
+				//printf("resource_file_size: %llu\n", resource_file_size);
+				//printf("i_begin: %llu\n", i_begin);
+				//printf("i_end: %llu\n", i_end);
+				//printf("i_end - i_begin: %llu\n", i_end - i_begin);
+				//printf("bin_data_size: %llu\n", bin_data_size);
 
-				for (file_size j = 0; j < i_begin; j++)
+				// Keep track of the position in the resource file
+				file_size file_position = 0;
+				
+				// Read binary data part 1 of the resource file
+				binary_file_set_position_begin(resource_file);
+				for (; file_position < i_begin; file_position++)
 				{
-					if (!binary_file_read_byte(&bin_data[j], 1, resource_file))
+					if (!binary_file_read_byte(&bin_data[file_position], 1, resource_file))
 					{
 						printf("Error: Failed to read data in resource file: %s\n", resource_filename);
 						return 1; // Failed!
 					}
 				}
 
+				// Read binary data part 2 of the resource file
 				binary_file_set_position(i_end, resource_file);
-
-				for (file_size j = i_end; j < bin_data_size; j++)
+				for (; file_position < bin_data_size; file_position++)
 				{
-					if (!binary_file_read_byte(&bin_data[j - (i_end - i_begin)], 1, resource_file))
+					if (!binary_file_read_byte(&bin_data[file_position], 1, resource_file))
 					{
 						printf("Error: Failed to read data in resource file: %s\n", resource_filename);
 						return 1; // Failed!
 					}
 				}
-
-
-
-				//binary_file_set_position((i_end-i_begin), resource_file);
-
-				/*
-				for (file_size j = i_end; j < bin_data_size; j++)
-				{
-					if (!binary_file_read_byte(&bin_data[j], 1, resource_file))
-					{
-						printf("Error: Failed to read data in resource file: %s\n", resource_filename);
-						return 1; // Failed!
-					}
-				}
-				*/
 
 				// Close the resource file
 				binary_file_close(resource_file);
 
-				//binary_file new_resource_file = binary_file_write_new(resource_filename);
-				binary_file new_resource_file = binary_file_write_new("temp.bin");
+				//binary_file new_resource_file = binary_file_write_new("temp.bin");
+				binary_file new_resource_file = binary_file_write_new(resource_filename);
 				if (new_resource_file == NULL)
 				{
 					printf("Error: Failed to create new resource file: %s\n", resource_filename);
 					return 1; // Failed!
 				}
 
-				//for (file_size j = 0; j < i_begin; j++)
+				// Write the new resource file
 				for (file_size j = 0; j < bin_data_size; j++)
 				{
 					if (!binary_file_write_byte(&bin_data[j], 1, new_resource_file))
@@ -264,12 +252,10 @@ u32 resource_compiler_remove(str item_filename, str resource_filename)
 					}
 				}
 
-
 				// Close the new resource file
 				binary_file_close(new_resource_file);
 
-
-				printf("Done\n");
+				//printf("Done\n");
 
 				return 0; // Finish with the job
 			}
