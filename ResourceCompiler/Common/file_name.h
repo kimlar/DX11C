@@ -122,7 +122,7 @@ str get_file_basename(str filename)
 	}
 
 	// Search for the last dot in the filename
-	size_t last_dot = 0;
+	size_t last_dot = strlen(filename); // if there is no dot in the filename then use the length of the filename
 	for (size_t i = 0; i < strlen(filename); i++)
 	{
 		if (filename[i] == '.')
