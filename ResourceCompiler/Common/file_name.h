@@ -1,18 +1,19 @@
+/*
+* 
+*	File name and path functions utilities
+*
+*	Example:
+*
+*	str filename = "Temp/Resource.pack";
+*
+*/
+
 #pragma once
 
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
-
-/*
-* File name and path functions utilities
-* 
-* Example:
-*
-* str filename = "Temp/Resource.pack";
-* 
-*/
 
 // Prototypes
 str get_file_path(str filename);					// Returns: Temp
