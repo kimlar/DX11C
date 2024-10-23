@@ -29,7 +29,6 @@ static void window_clip_mouse(bool isClipped);
 
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	LRESULT result = 0;
 	switch (msg)
 	{
 		case WM_KEYDOWN:
@@ -64,9 +63,9 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 			break;
 		}
 		default:
-			result = DefWindowProcW(hwnd, msg, wparam, lparam);
+			break;			
 	}
-	return result;
+	return DefWindowProcW(hwnd, msg, wparam, lparam);
 }
 
 // Create window
